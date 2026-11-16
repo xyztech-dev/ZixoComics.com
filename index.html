@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZixoComics — Independent Graphic Novel Publisher | The Pantheon-X Universe</title>
+  
+  <!-- Google Fonts: Bebas Neue & Oswald for heavy comic display headers, Inter for crisp legibility -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#0B0E14',
+            slateDark: '#121722',
+            slateCard: '#161C29',
+            offwhite: '#F4F4F6',
+            gold: '#D4AF37',
+            goldHover: '#E5C158',
+            crimson: '#9E1B24'
+          },
+          fontFamily: {
+            display: ['"Bebas Neue"', '"Oswald"', 'sans-serif'],
+            condensed: ['"Oswald"', 'sans-serif'],
+            sans: ['"Inter"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Graphic Novel & Noir Ink Styling */
+    body {
+      background-color: #0B0E14;
+      color: #F4F4F6;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Subtle comic halftone dot texture overlay */
+    .halftone-bg {
+      background-image: radial-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+
+    .halftone-dark {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 12px 12px;
+    }
+
+    /* Impound-inspired sharp graphic novel borders & corner boxes */
+    .comic-border {
+      border: 1.5px solid rgba(244, 244, 246, 0.14);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .comic-border:hover {
+      border-color: #D4AF37;
+      box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.22);
+    }
+
+    .corner-box {
+      border: 2px solid #D4AF37;
+      box-shadow: 3px 3px 0px #D4AF37;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0E14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #263042;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D4AF37;
+    }
+
+    /* Comic Reader Panel Styling */
+    .comic-panel {
+      background: #11151E;
+      border: 2px solid #2A3244;
+      box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.65);
+    }
+    .dialogue-bubble {
+      background: #F4F4F6;
+      color: #0B0E14;
+      border: 2px solid #0B0E14;
+      box-shadow: 3px 3px 0px #D4AF37;
+    }
+    .caption-box {
+      background: #D4AF37;
+      color: #0B0E14;
+      border: 1.5px solid #0B0E14;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-gold selection:text-obsidian">
+
+  <!-- ===================================================================== -->
+  <!-- TOP NAVIGATION BAR                                                    -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-obsidian/95 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- ZixoComics Corner-Box Logo Mark (Stealth Creator Trigger: Triple-click or Hold 2s) -->
+        <button id="brandLogoTrigger" onclick="handleLogoClick(event)" class="flex items-center gap-3 text-left group focus:outline-none select-none" title="ZixoComics Home">
+          <div class="corner-box bg-obsidian px-2.5 py-1 flex flex-col items-center justify-center leading-none transition-transform group-hover:-translate-y-0.5">
+            <span class="font-display text-xl sm:text-2xl tracking-wider text-gold">ZX</span>
+            <span class="text-[8px] font-bold tracking-widest uppercase text-offwhite border-t border-gold/50 pt-0.5 mt-0.5">ISSUE 01</span>
+          </div>
+          <div>
+            <div class="font-display text-2xl sm:text-3xl tracking-wider text-offwhite leading-none">
+              ZIXO<span class="text-gold">COMICS</span>
+            </div>
+            <p class="text-[10px] uppercase tracking-[0.22em] text-gray-400 font-semibold mt-0.5">Independent Graphic Universe</p>
+          </div>
+        </button>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-1 lg:gap-2">
+          <button onclick="navigateTo('home')" data-nav="home" class="nav-btn px-4 py-2 rounded font-condensed uppercase tracking-wider text-sm font-semibold transition-colors text-gold bg-white/5">
+            Home
+          </button>
+          <button onclick="navigateTo('universe')" data-nav="universe" class="nav-btn px-4 py-2 rounded font-condensed uppercase tracking-wider text-sm font-semibold transition-colors text-gray-300 hover:text-gold">
+            Universes &amp; Roster
+          </button>
+          <button onclick="navigateTo('reader')" data-nav="reader" class="nav-btn px-4 py-2 rounded font-condensed uppercase tracking-wider text-sm font-semibold transition-colors text-gray-300 hover:text-gold">
+            Comic Reader
+          </button>
+          <button onclick="navigateTo('lore')" data-nav="lore" class="nav-btn px-4 py-2 rounded font-condensed uppercase tracking-wider text-sm font-semibold transition-colors text-gray-300 hover:text-gold">
+            Lore &amp; News
+          </button>
+        </nav>
+
+        <!-- Right Controls: Secret Unlocked Badge (Hidden by default) & Mobile Menu -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button onclick="openAdminStudio()" id="adminUnlockedBadge" class="hidden items-center gap-2 px-3 py-2 rounded border border-gold/40 bg-gold/10 hover:bg-gold hover:text-obsidian text-gold text-xs font-condensed uppercase tracking-wider font-bold transition-all">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+            </svg>
+            <span>Creator Studio</span>
+          </button>
+
+          <!-- Mobile Hamburger -->
+          <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded border border-white/15 text-offwhite hover:border-gold hover:text-gold" aria-label="Toggle Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Navigation -->
+      <div id="mobileMenu" class="hidden md:hidden pb-4 pt-2 border-t border-white/10 space-y-1">
+        <button onclick="navigateTo('home'); toggleMobileMenu()" data-nav="home" class="mobile-nav-btn block w-full text-left px-3 py-2.5 rounded font-condensed uppercase tracking-wider text-sm font-semibold text-gold bg-white/5">Home</button>
+        <button onclick="navigateTo('universe'); toggleMobileMenu()" data-nav="universe" class="mobile-nav-btn block w-full text-left px-3 py-2.5 rounded font-condensed uppercase tracking-wider text-sm font-semibold text-gray-300">Universes &amp; Roster</button>
+        <button onclick="navigateTo('reader'); toggleMobileMenu()" data-nav="reader" class="mobile-nav-btn block w-full text-left px-3 py-2.5 rounded font-condensed uppercase tracking-wider text-sm font-semibold text-gray-300">Comic Reader</button>
+        <button onclick="navigateTo('lore'); toggleMobileMenu()" data-nav="lore" class="mobile-nav-btn block w-full text-left px-3 py-2.5 rounded font-condensed uppercase tracking-wider text-sm font-semibold text-gray-300">Lore &amp; News</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                                -->
+  <!-- ===================================================================== -->
+  <main class="flex-1">
+
+    <!-- =================================================================== -->
+    <!-- SECTION 1: HOME                                                     -->
+    <!-- =================================================================== -->
+    <section id="section-home" class="page-section space-y-16 pb-20">
+      
+      <!-- Full-Bleed Editorial Hero Banner -->
+      <div class="relative overflow-hidden border-b border-white/10 halftone-bg">
+        <div class="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/90 to-obsidian/40 z-10"></div>
+        <div class="absolute -right-24 -top-24 w-96 h-96 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-24 relative z-20">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            <!-- Left Hero Copy -->
+            <div class="lg:col-span-7 space-y-6">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-gold/15 border border-gold/40 text-gold text-xs font-condensed uppercase tracking-[0.2em] font-bold">
+                <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+                Flagship Continuity • Volume 1 Available Now
+              </div>
+              
+              <h1 class="font-display text-5xl sm:text-7xl lg:text-8xl tracking-wide text-offwhite leading-[0.95]">
+                THE <span class="text-gold">PANTHEON-X</span> UNIVERSE
+              </h1>
+              
+              <p class="font-condensed text-xl sm:text-2xl text-gray-300 uppercase tracking-wider">
+                Volume 1: <span class="text-offwhite font-bold">Dead Circuit</span> — Issues #1 through #6
+              </p>
+              
+              <p class="text-gray-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+                Power doesn't teach you how to fight, and raw strength doesn't keep people alive. Follow <strong class="text-offwhite">Bryan Cole (Electromark)</strong>, <strong class="text-offwhite">Chris Thorne (Arion)</strong>, and six damaged outcasts across the rain-slicked rooftops and black-site labs of Iron City.
+              </p>
+              
+              <div class="flex flex-wrap items-center gap-4 pt-2">
+                <button onclick="openIssueInReader(1)" class="px-7 py-3.5 rounded bg-gold hover:bg-goldHover text-obsidian font-condensed uppercase tracking-wider font-bold text-base shadow-lg shadow-gold/20 transition-all flex items-center gap-2">
+                  <span>Read Issue #1: Live Wire</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+                <button onclick="navigateTo('universe', 'Pantheon-X')" class="px-7 py-3.5 rounded border border-white/25 hover:border-gold text-offwhite hover:text-gold font-condensed uppercase tracking-wider font-bold text-base transition-all">
+                  Explore Pantheon-X Roster
+                </button>
+              </div>
+
+              <!-- Quick Stats Strip -->
+              <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 max-w-lg">
+                <div>
+                  <div class="font-display text-3xl text-gold">05</div>
+                  <div class="text-xs uppercase tracking-wider text-gray-400">Original Universes</div>
+                </div>
+                <div>
+                  <div class="font-display text-3xl text-offwhite">06</div>
+                  <div class="text-xs uppercase tracking-wider text-gray-400">Vol. 1 Issues Live</div>
+                </div>
+                <div>
+                  <div class="font-display text-3xl text-gold">2D NOIR</div>
+                  <div class="text-xs uppercase tracking-wider text-gray-400">Heavy Ink Aesthetic</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Hero Graphic Novel Cover Spotlight -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div onclick="openIssueInReader(1)" class="cursor-pointer group relative w-full max-w-sm rounded-lg overflow-hidden comic-border bg-slateCard p-3">
+                <div class="relative aspect-[3/4] rounded overflow-hidden bg-obsidian border border-white/10">
+                  <div id="heroSpotlightArt" class="w-full h-full"></div>
+                  <!-- Cover Trade Dress -->
+                  <div class="absolute top-3 left-3 corner-box bg-obsidian/95 px-2.5 py-1 text-center">
+                    <div class="font-display text-lg text-gold leading-none">ZX</div>
+                    <div class="text-[9px] font-bold text-offwhite tracking-widest">#01</div>
+                  </div>
+                  <div class="absolute top-3 right-3 px-2.5 py-1 rounded bg-crimson text-offwhite font-condensed text-xs uppercase tracking-widest font-bold">
+                    VOL. 1 PREMIERE
+                  </div>
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-obsidian via-obsidian/95 to-transparent p-5 pt-12">
+                    <div class="text-xs font-condensed uppercase tracking-[0.25em] text-gold font-bold">ZixoComics Presents</div>
+                    <div class="font-display text-4xl text-offwhite tracking-wide leading-none mt-1">PANTHEON-X</div>
+                    <div class="text-xs text-gray-300 mt-1.5 flex items-center justify-between">
+                      <span>"DEAD CIRCUIT"</span>
+                      <span class="text-gold font-semibold group-hover:underline">Read Now →</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal "Latest Issues" Shelf (Pantheon-X Vol. 1: Issues #1–#6) -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div>
+            <span class="text-xs font-condensed uppercase tracking-[0.25em] text-gold font-bold">Volume 1 Complete Run</span>
+            <h2 class="font-display text-4xl sm:text-5xl text-offwhite tracking-wide mt-1">LATEST ISSUES — PANTHEON-X</h2>
+          </div>
+          <button onclick="navigateTo('reader')" class="text-sm font-condensed uppercase tracking-wider text-gold hover:text-goldHover font-bold flex items-center gap-1.5">
+            <span>Open Full Comic Reader</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <div id="latestIssuesShelf" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically populated by JS -->
+        </div>
+      </div>
+
+      <!-- Multiverse Showcase Grid (All 5 Universes) -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div class="border-t border-white/10 pt-14">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+            <div>
+              <span class="text-xs font-condensed uppercase tracking-[0.25em] text-gold font-bold">The ZixoComics Multiverse</span>
+              <h2 class="font-display text-4xl sm:text-5xl text-offwhite tracking-wide mt-1">PUBLISHER UNIVERSES</h2>
+            </div>
+            <p class="text-sm text-gray-400 max-w-md">
+              Five distinct worlds forged in heavy ink, street-level grit, mythic bloodlines, and cosmic mystery.
+            </p>
+          </div>
+
+          <div id="universesShowcaseGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamically populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ZixoComics Publisher Manifesto -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-lg comic-border bg-slateCard/90 halftone-dark p-8 sm:p-12 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1.5 h-full bg-gold"></div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-8 space-y-4">
+              <div class="text-xs font-condensed uppercase tracking-[0.25em] text-gold font-bold">The ZixoComics Manifesto</div>
+              <h3 class="font-display text-3xl sm:text-4xl text-offwhite tracking-wide">HEAVY INK. HUMAN WEIGHT. ZERO FILLER.</h3>
+              <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                ZixoComics was built on a simple rule: powers don't replace character, and spectacle means nothing without consequence. Inspired by classic graphic novel chiaroscuro and modern independent storytelling, every ZixoComics universe pairs grounded human emotion with high-stakes visual grit.
+              </p>
+            </div>
+            <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
+              <button onclick="navigateTo('lore')" class="w-full py-3 px-5 rounded bg-obsidian border border-gold/50 hover:bg-gold hover:text-obsidian text-gold font-condensed uppercase tracking-wider font-bold text-sm transition-all text-center">
+                Read The Pantheon-X Protocol
+              </button>
+              <button onclick="navigateTo('universe')" class="w-full py-3 px-5 rounded bg-white/5 hover:bg-white/10 text-gray-300 font-condensed uppercase tracking-wider font-semibold text-sm transition-all text-center">
+                Browse All 5 Universes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: UNIVERSES & ROSTER                                       -->
+    <!-- =================================================================== -->
+    <section id="section-universe" class="page-section hidden py-12 pb-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        
+        <!-- Header & Universe Info Banner -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
+          <div>
+            <div class="text-xs font-condensed uppercase tracking-[0.25em] text-gold font-bold">Character &amp; Universe Database</div>
+            <h1 class="font-display text-5xl sm:text-6xl text-offwhite tracking-wide mt-1">UNIVERSES &amp; ROSTER</h1>
+            <p class="text-gray-400 text-sm sm:text-base max-w-2xl mt-2">
+              Select a universe below to inspect character dossiers, power metrics, civilian identities, and tactical field notes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: UNIVERSES & ROSTER                                       -->
+    <!-- =================================================================== -->
+    <section id="section-universe" class="page-section hidden py-12 pb-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        
+        <!-- Header & Universe Info Banner -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
+          <div>
+            <div class="text-xs font-condensed uppercase tracking-[0.25em] text-gold font-bold">Character &amp; Universe Database</div>
+            <h1 class="font-display text-5xl sm:text-6xl text-offwhite tracking-wide mt-1">UNIVERSES &amp; ROSTER</h1>
+            <p class="text-gray-400 text-sm sm:text-base max-w-2xl mt-2">
+              Select a universe below to inspect character dossiers, power metrics, civilian identities, and tactical field notes.
+            </p>
+          </div>
+
+          <button onclick="openAdminGate()" class="self-start md:self-auto px-4 py-2.5 rounded bg-gold text-obsidian hover:bg-goldHover font-condensed uppercase tracking-wider font-bold text-xs flex items-center gap-2 transition-all">
+            <span>+ Add / Edit Characters</span>
+          </button>
+        </div>
+
+        <!-- Universe Filter Tabs -->
+        <div id="universeFilterTabs" class="flex flex-wrap gap-2">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Active Universe Context Banner -->
+        <div id="activeUniverseBanner" class="rounded-lg bg-slateCard border border-white/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Character Dossier Grid -->
+        <div id="characterRosterGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Populated dynamically -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 3: COMIC READER                                             -->
+    <!-- =================================================================== -->
+    <section id="section-reader" class="page-section hidden py-10 pb-24">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        <!-- Reader Top Toolbar -->
+        <div class="rounded-lg bg-slateCard border border-white/15 p-4 sm:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div>
+            <div class="text-[11px] font-condensed uppercase tracking-[0.22em] text-gold font-bold">ZixoComics Digital Reader • Pantheon-X Vol. 1</div>
+            <h1 id="readerIssueHeading" class="font-display text-3xl sm:text-4xl text-offwhite tracking-wide mt-0.5">ISSUE #1: "LIVE WIRE"</h1>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+            <!-- View Mode Toggle -->
+            <div class="inline-flex rounded bg-obsidian p-1 border border-white/15">
+              <button onclick="setReaderMode('scroll')" id="modeScrollBtn" class="px-3 py-1.5 rounded text-xs font-condensed uppercase tracking-wider font-bold bg-gold text-obsidian transition-all">
+                Vertical Scroll
+              </button>
+              <button onclick="setReaderMode('flip')" id="modeFlipBtn" class="px-3 py-1.5 rounded text-xs font-condensed uppercase tracking-wider font-bold text-gray-300 hover:text-offwhite transition-all">
+                Page-Flip
+              </button>
+            </div>
+
+            <!-- Issue Selector Dropdown -->
+            <select id="readerIssueSelect" onchange="selectReaderIssue(Number(this.value))" class="bg-obsidian border border-gold/40 text-offwhite text-xs font-condensed uppercase tracking-wider font-bold rounded px-3 py-2.5 focus:outline-none focus:border-gold">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Issue Quick Pills -->
+        <div id="readerIssuePills" class="flex flex-wrap gap-2">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Reader Stage (Vertical Scroll or Page-Flip) -->
+        <div id="readerStage" class="space-y-8">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Bottom Issue Navigation -->
+        <div class="flex items-center justify-between pt-6 border-t border-white/10">
+          <button onclick="prevReaderIssue()" id="prevIssueBtn" class="px-5 py-3 rounded border border-white/20 hover:border-gold text-offwhite hover:text-gold font-condensed uppercase tracking-wider font-bold text-sm transition-all disabled:opacity-30 disabled:pointer-events-none">
+            ← Previous Issue
+          </button>
+          <span id="readerFooterIndicator" class="text-xs font-condensed uppercase tracking-widest text-gray-400">Issue 1 of 6</span>
+          <button onclick="nextReaderIssue()" id="nextIssueBtn" class="px-5 py-3 rounded bg-gold hover:bg-goldHover text-obsidian font-condensed uppercase tracking-wider font-bold text-sm transition-all disabled:opacity-30 disabled:pointer-events-none">
+            Next Issue →
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 4: LORE & NEWS                                              -->
+    <!-- =================================================================== -->
+    <section id="section-lore" class="page-section hidden py-12 pb-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        <div class="border-b border-white/10 pb-8">
+          <div class="text-xs font-condensed uppercase tracking-[0.25em] text-gold font-bold">Archives, Factions &amp; Dispatches</div>
+          <h1 class="font-display text-5xl sm:text-6xl text-offwhite tracking-wide mt-1">LORE &amp; PUBLISHER NEWS</h1>
+          <p class="text-gray-400 text-sm sm:text-base max-w-2xl mt-2">
+            Classified briefings from Iron City, the Pantheon-X Protocol charter, and upcoming crossover announcements.
+          </p>
+        </div>
+
+        <!-- Featured Lore & News Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          <!-- Card 1: The Pantheon-X Protocol -->
+          <article class="rounded-lg comic-border bg-slateCard p-7 flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <div class="inline-block px-2.5 py-1 rounded bg-gold/15 border border-gold/40 text-gold text-[11px] font-condensed uppercase tracking-widest font-bold">
+                Core Charter • Directive 01
+              </div>
+              <h2 class="font-display text-3xl text-offwhite tracking-wide">THE PANTHEON-X PROTOCOL</h2>
+              <p class="text-gray-300 text-sm leading-relaxed">
+                Established atop Malachai's ruined spire at the close of Volume 1, the <strong class="text-offwhite">Pantheon-X Protocol</strong> is an off-grid mutual defense pact orchestrated by Bryan Cole (Electromark).
+              </p>
+              <ul class="space-y-2.5 text-xs text-gray-400 border-t border-white/10 pt-4">
+                <li class="flex items-start gap-2">
+                  <span class="text-gold font-bold">01.</span>
+                  <span><strong class="text-offwhite">Tactical Restraint:</strong> Raw power is never deployed without exit vectors and civilian containment calculated first.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-gold font-bold">02.</span>
+                  <span><strong class="text-offwhite">Zero Government Jurisdiction:</strong> Pantheon-X answers to no corporate board or black-site directorate.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-gold font-bold">03.</span>
+                  <span><strong class="text-offwhite">Humanity First:</strong> Every member retains a civilian anchor—ensuring gods and monsters never forget the streets below.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+              <span>Author: Bryan Cole</span>
+              <span class="text-gold font-condensed uppercase font-bold">Status: Active</span>
+            </div>
+          </article>
+
+          <!-- Card 2: Iron City Faction Profiles -->
+          <article class="rounded-lg comic-border bg-slateCard p-7 flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <div class="inline-block px-2.5 py-1 rounded bg-crimson/20 border border-crimson/50 text-red-400 text-[11px] font-condensed uppercase tracking-widest font-bold">
+                Threat Dossier • Antagonists
+              </div>
+              <h2 class="font-display text-3xl text-offwhite tracking-wide">IRON CITY THREAT FACTIONS</h2>
+              
+              <div class="space-y-4 pt-1">
+                <div class="p-3.5 rounded bg-obsidian/80 border border-white/10">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-condensed text-base uppercase tracking-wider font-bold text-offwhite">Director Sterling Pierce</h3>
+                    <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-white/10 text-gray-300">Corporate Black-Ops</span>
+                  </div>
+                  <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
+                    Architect of Sub-Level Four's illegal mutagen pipeline. Responsible for Dr. James Vance's obsidian transformation and Marcus Bell's captivity before his arrest in Issue #6.
+                  </p>
+                </div>
+
+                <div class="p-3.5 rounded bg-obsidian/80 border border-white/10">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-condensed text-base uppercase tracking-wider font-bold text-offwhite">Lord Malachai</h3>
+                    <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-700/40">Astral Warlord</span>
+                  </div>
+                  <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
+                    Wielder of dark-astral blood rituals who sought to siphon Chris Thorne's Ares lineage. Banished into the void by Zara Cross and Arion—though his dimensional breach drew unwanted eyes from deep space.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+              <span>Sector: Iron City</span>
+              <span class="text-red-400 font-condensed uppercase font-bold">Threat Level: Omega</span>
+            </div>
+          </article>
+
+          <!-- Card 3: Volume 2 Announcement -->
+          <article class="rounded-lg comic-border bg-gradient-to-b from-slateCard to-obsidian p-7 flex flex-col justify-between space-y-6 relative overflow-hidden">
+            <div class="space-y-4">
+              <div class="inline-block px-2.5 py-1 rounded bg-gold text-obsidian text-[11px] font-condensed uppercase tracking-widest font-bold">
+                Upcoming Crossover Event
+              </div>
+              <h2 class="font-display text-3xl text-offwhite tracking-wide">VOL. 2: INTERGALACTIC GLASS</h2>
+              <p class="text-gray-300 text-sm leading-relaxed">
+                Malachai's dimensional tear left a beacon in the upper atmosphere—and the <strong class="text-gold">Intergalactic Sovereign Armada</strong> has arrived to collect.
+              </p>
+              <p class="text-gray-400 text-xs leading-relaxed">
+                When Grand Admiral Vael issues a 60-minute ultimatum to surrender Liam Carter (Outcast) or watch Iron City turn to molten glass, Bryan Cole must coordinate street-level shinobi, an Ares war-god, and an obsidian colossus in orbital warfare.
+              </p>
+              <div class="p-3 rounded bg-gold/10 border border-gold/30 text-xs text-gold font-condensed uppercase tracking-wider">
+                Issues #7 – #12 • Currently in Storyboard Production
+              </div>
+            </div>
+            <button onclick="navigateTo('universe', 'Pantheon-X')" class="w-full py-2.5 px-4 rounded border border-gold text-gold hover:bg-gold hover:text-obsidian font-condensed uppercase tracking-wider font-bold text-xs transition-all">
+              Inspect Vol. 2 Roster →
+            </button>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER                                                                -->
+  <!-- ===================================================================== -->
+  <footer class="bg-obsidian border-t border-white/10 py-10 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="corner-box bg-obsidian px-2 py-0.5">
+          <span class="font-display text-lg text-gold">ZX</span>
+        </div>
+        <div>
+          <span class="font-display text-xl tracking-wider text-offwhite">ZIXO<span class="text-gold">COMICS</span></span>
+          <p class="text-xs text-gray-500">© 2026 ZixoComics Publishing. All Universes &amp; Characters Creator-Owned.</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-5 text-xs font-condensed uppercase tracking-wider text-gray-400">
+        <button onclick="navigateTo('home')" class="hover:text-gold">Home</button>
+        <button onclick="navigateTo('universe')" class="hover:text-gold">Universes</button>
+        <button onclick="navigateTo('reader')" class="hover:text-gold">Reader</button>
+        <button onclick="navigateTo('lore')" class="hover:text-gold">Lore &amp; News</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 1: CHARACTER DOSSIER DETAIL MODAL                               -->
+  <!-- ===================================================================== -->
+  <div id="dossierModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="bg-slateCard border-2 border-gold/60 rounded-lg max-w-3xl w-full overflow-hidden shadow-2xl my-8">
+      <div id="dossierModalContent">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 2: UNIVERSE DETAIL PREVIEW MODAL                                -->
+  <!-- ===================================================================== -->
+  <div id="universeModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="bg-slateCard border-2 border-gold/60 rounded-lg max-w-2xl w-full overflow-hidden shadow-2xl my-8">
+      <div id="universeModalContent">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 3: ADMIN PIN GATE MODAL                                         -->
+  <!-- ===================================================================== -->
+  <div id="adminPinModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4">
+    <div class="bg-slateCard border-2 border-gold rounded-lg max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="corner-box px-2 py-0.5 bg-obsidian font-display text-gold text-base">ZX</div>
+          <h2 class="font-display text-3xl text-offwhite tracking-wide">CREATOR ACCESS</h2>
+        </div>
+        <button onclick="closeModal('adminPinModal')" class="text-gray-400 hover:text-offwhite text-xl leading-none">✕</button>
+      </div>
+      
+      <p class="text-xs text-gray-300 leading-relaxed">
+        Enter your ZixoComics creator PIN to unlock the hidden studio, upload character portraits, add new heroes, or export backups.
+      </p>
+
+      <form onsubmit="verifyAdminPin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-condensed uppercase tracking-wider text-gray-300 mb-1.5">Creator PIN</label>
+          <input type="password" id="adminPinInput" maxlength="12" placeholder="••••" class="w-full bg-obsidian border border-white/20 focus:border-gold rounded px-4 py-3 text-offwhite font-mono text-lg tracking-widest focus:outline-none" required />
+          <p id="adminPinError" class="hidden text-xs text-red-400 mt-1.5">Incorrect PIN. Please try again.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button type="submit" class="w-full py-3 rounded bg-gold hover:bg-goldHover text-obsidian font-condensed uppercase tracking-wider font-bold text-sm transition-all">
+            Unlock Studio
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 4: FULL CREATOR ADMIN STUDIO (PERSISTENT INDEXEDDB)             -->
+  <!-- ===================================================================== -->
+  <div id="adminStudioModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-md p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-slateDark border-2 border-gold rounded-lg max-w-6xl w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+      
+      <!-- Studio Top Bar -->
+      <div class="px-6 py-4 bg-obsidian border-b border-white/10 flex flex-wrap items-center justify-between gap-4 shrink-0">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded bg-gold text-obsidian font-condensed text-xs font-bold uppercase tracking-widest">Creator Studio</span>
+          <h2 class="font-display text-2xl sm:text-3xl text-offwhite tracking-wide">ZIXOCOMICS CONTENT MANAGER</h2>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <span id="storageStatusBadge" class="text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-700/40 px-2.5 py-1 rounded font-medium">
+            ● IndexedDB Persistent Storage Active
+          </span>
+          <button onclick="closeModal('adminStudioModal')" class="px-3 py-1.5 rounded bg-white/10 hover:bg-white/20 text-offwhite text-xs font-condensed uppercase tracking-wider font-bold">
+            Close Studio ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Studio Tabs -->
+      <div class="px-6 pt-3 bg-obsidian/60 border-b border-white/10 flex flex-wrap gap-2 shrink-0">
+        <button onclick="switchAdminTab('characters')" id="adminTab-characters" class="admin-tab-btn px-4 py-2 rounded-t font-condensed uppercase tracking-wider text-xs font-bold bg-slateDark text-gold border-t border-x border-gold/40">
+          Manage Characters &amp; Photos
+        </button>
+        <button onclick="switchAdminTab('universes')" id="adminTab-universes" class="admin-tab-btn px-4 py-2 rounded-t font-condensed uppercase tracking-wider text-xs font-bold text-gray-400 hover:text-offwhite">
+          Manage Universes
+        </button>
+        <button onclick="switchAdminTab('backup')" id="adminTab-backup" class="admin-tab-btn px-4 py-2 rounded-t font-condensed uppercase tracking-wider text-xs font-bold text-gray-400 hover:text-offwhite">
+          JSON Backup &amp; Reset
+        </button>
+      </div>
+
+      <!-- Studio Scrollable Body -->
+      <div class="p-6 overflow-y-auto flex-1 space-y-8">
+        
+        <!-- TAB A: CHARACTERS & PHOTOS -->
+        <div id="adminPanel-characters" class="admin-panel-view grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- Left: Add / Edit Character Form -->
+          <div class="lg:col-span-5 bg-obsidian border border-white/10 rounded-lg p-5 space-y-4 h-fit">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 id="charFormTitle" class="font-display text-2xl text-gold tracking-wide">ADD NEW CHARACTER</h3>
+              <button type="button" onclick="resetCharacterForm()" id="cancelEditCharBtn" class="hidden text-xs text-gray-400 hover:text-offwhite underline">Cancel Edit</button>
+            </div>
+
+            <form id="characterAdminForm" onsubmit="saveCharacterFromAdmin(event)" class="space-y-3.5">
+              <input type="hidden" id="editCharId" value="" />
+
+              <div>
+                <label class="block text-[11px] font-condensed uppercase tracking-wider text-gray-300 mb-1">Universe</label>
+                <select id="charUniverseInput" class="w-full bg-slateCard border border-white/20 rounded px-3 py-2 text-sm text-offwhite focus:border-gold focus:outline-none" required>
+                  <option value="Pantheon-X">Pantheon-X Universe</option>
+                  <option value="Guardians of Balance">Guardians of Balance Universe</option>
+                  <option value="Crow Angel">Crow Angel Universe</option>
+                  <option value="The Void Ascendant">The Void Ascendant Universe</option>
+                  <option value="Alpha Shinobi">Alpha Shinobi Universe</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-condensed uppercase tracking-wider text-gray-300 mb-1">Hero Codename *</label>
+                  <input type="text" id="charCodenameInput" placeholder="e.g. Electromark" class="w-full bg-slateCard border border-white/20 rounded px-3 py-2 text-sm text-offwhite focus:border-gold focus:outline-none" required />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-condensed uppercase tracking-wider text-gray-300 mb-1">Civilian Name *</label>
+                  <input type="text" id="charCivilianInput" placeholder="e.g. Bryan Cole" class="w-full bg-slateCard border border-white/20 rounded px-3 py-2 text-sm text-offwhite focus:border-gold focus:outline-none" required />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-condensed uppercase tracking-wider text-gray-300 mb-1">Archetype / Role *</label>
+                <input type="text" id="charRoleInput" placeholder="e.g. The Living Current • Master Strategist" class="w-full bg-slateCard border border-white/20 rounded px-3 py-2 text-sm text-offwhite focus:border-gold focus:outline-none" required />
+              </div>
+
+              <!-- Image Upload from Device -->
+              <div>
+                <label class="block text-[11px] font-condensed uppercase tracking-wider text-gray-300 mb-1">Character Portrait Photo (Saved Offline)</label>
+                <div class="flex items-center gap-3">
+                  <label class="flex-1 cursor-pointer bg-slateCard hover:bg-white/10 border border-dashed border-gold/50 rounded px-3 py-2.5 text-center text-xs text-gold font-medium transition-colors">
+                    <span>📁 Choose Photo from Device</span>
+                    <input type="file" id="charPhotoUpload" accept="image/*" onchange="handleAdminImageSelect(event)" class="hidden" />
+                  </label>
+                  <button type="button" onclick="clearSelectedUpload()" id="clearPhotoBtn" class="hidden px-2.5 py-2 rounded bg-red-950/60 text-red-300 text-xs border border-red-700/40">Remove</button>
+                </div>
+                <div id="adminPhotoPreviewBox" class="mt-2 hidden items-center gap-3 bg-slateCard p-2 rounded border border-white/10">
+                  <img id="adminPhotoPreviewImg" src="" alt="Preview" class="w-12 h-14 object-cover rounded border border-gold/40" />
+                  <span class="text-[11px] text-gray-300">Custom photo ready to save permanently.</span>
+                </div>
+              </div>
+
+              <!-- Power Stats -->
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-[10px] font-condensed uppercase tracking-wider text-gray-400 mb-1">Power (1-100)</label>
+                  <input type="number" id="statPowerInput" min="1" max="100" value="88" class="w-full bg-slateCard border border-white/20 rounded px-2.5 py-1.5 text-sm text-offwhite" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-condensed uppercase tracking-wider text-gray-400 mb-1">Combat (1-100)</label>
+                  <input type="number" id="statCombatInput" min="1" max="100" value="80" class="w-full bg-slateCard border border-white/20 rounded px-2.5 py-1.5 text-sm text-offwhite" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-condensed uppercase tracking-wider text-gray-400 mb-1">Strategy (1-100)</label>
+                  <input type="number" id="statStrategyInput" min="1" max="100" value="85" class="w-full bg-slateCard border border-white/20 rounded px-2.5 py-1.5 text-sm text-offwhite" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-condensed uppercase tracking-wider text-gray-300 mb-1">Origin Bio *</label>
+                <textarea id="charBioInput" rows="3" placeholder="Character backstory, powers, and key flaw..." class="w-full bg-slateCard border border-white/20 rounded px-3 py-2 text-xs text-offwhite focus:border-gold focus:outline-none" required></textarea>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-condensed uppercase tracking-wider text-gray-300 mb-1">Tactical Field Notes</label>
+                <input type="text" id="charNotesInput" placeholder="e.g. Zero martial arts training; relies on 100% output & positioning." class="w-full bg-slateCard border border-white/20 rounded px-3 py-2 text-xs text-offwhite focus:border-gold focus:outline-none" />
+              </div>
+
+              <button type="submit" class="w-full py-3 rounded bg-gold hover:bg-goldHover text-obsidian font-condensed uppercase tracking-wider font-bold text-sm transition-all">
+                Save Character to Database
+              </button>
+            </form>
+          </div>
+
+          <!-- Right: Existing Roster List with Quick Photo Swap & Delete -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h3 class="font-display text-2xl text-offwhite tracking-wide">SAVED ROSTER (<span id="adminCharCount">0</span>)</h3>
+              <select id="adminFilterUniverse" onchange="renderAdminCharacterList()" class="bg-obsidian border border-white/20 rounded px-3 py-1.5 text-xs text-offwhite">
+                <option value="ALL">All Universes</option>
+                <option value="Pantheon-X">Pantheon-X</option>
+                <option value="Guardians of Balance">Guardians of Balance</option>
+                <option value="Crow Angel">Crow Angel</option>
+                <option value="The Void Ascendant">The Void Ascendant</option>
+                <option value="Alpha Shinobi">Alpha Shinobi</option>
+              </select>
+            </div>
+
+            <div id="adminCharacterList" class="space-y-3 max-h-[62vh] overflow-y-auto pr-1">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+        </div>
+        <!-- TAB C: JSON BACKUP, PIN SECURITY & RESET -->
+        <div id="adminPanel-backup" class="admin-panel-view hidden space-y-6 max-w-2xl">
+          <div class="bg-obsidian border border-white/10 rounded-lg p-6 space-y-4">
+            <h3 class="font-display text-2xl text-gold tracking-wide">CHANGE CREATOR PIN</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">
+              Update your secret PIN used to unlock the Creator Studio (default is <span class="font-mono text-gold">1234</span>). Your new PIN saves permanently in IndexedDB/localStorage.
+            </p>
+            <form onsubmit="updateAdminPinFromStudio(event)" class="flex flex-col sm:flex-row gap-3 pt-1">
+              <input type="password" id="newAdminPinInput" minlength="4" maxlength="12" placeholder="Enter new PIN (min 4 chars)" class="flex-1 bg-slateCard border border-white/20 focus:border-gold rounded px-3.5 py-2 text-sm text-offwhite font-mono focus:outline-none" required />
+              <button type="submit" class="px-5 py-2 rounded bg-gold hover:bg-goldHover text-obsidian font-condensed uppercase tracking-wider font-bold text-xs">
+                Save New PIN
+              </button>
+            </form>
+          </div>
+
+          <div class="bg-obsidian border border-white/10 rounded-lg p-6 space-y-4">
+            <h3 class="font-display text-2xl text-gold tracking-wide">EXPORT / IMPORT PUBLISHER BACKUP</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">
+              Your uploaded photos and character edits are stored in your browser's <strong class="text-offwhite">IndexedDB</strong> so they survive page refreshes automatically. Use Export JSON to save a backup file you can move to another device or embed into your GitHub repository.
+            </p>
+            <div class="flex flex-wrap gap-3 pt-2">
+              <button onclick="exportDatabaseJson()" class="px-5 py-2.5 rounded bg-gold hover:bg-goldHover text-obsidian font-condensed uppercase tracking-wider font-bold text-xs">
+                ⬇ Export Full JSON Backup
+              </button>
+              <label class="cursor-pointer px-5 py-2.5 rounded border border-gold/50 hover:bg-gold/10 text-gold font-condensed uppercase tracking-wider font-bold text-xs">
+                ⬆ Import JSON Backup
+                <input type="file" accept=".json" onchange="importDatabaseJson(event)" class="hidden" />
+              </label>
+            </div>
+          </div>
+
+          <div class="bg-red-950/20 border border-red-800/40 rounded-lg p-6 space-y-3">
+            <h3 class="font-display text-2xl text-red-400 tracking-wide">FACTORY RESET</h3>
+            <p class="text-xs text-gray-400">
+              Restore the original ZixoComics default database (all 8 Pantheon-X dossiers, 5 universes, and 6 issues).
+            </p>
+            <button onclick="confirmFactoryReset()" class="px-4 py-2 rounded bg-red-900/60 hover:bg-red-800 text-offwhite font-condensed uppercase tracking-wider font-bold text-xs">
+              Reset to Default Data
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Banner -->
+  <div id="toastBanner" class="fixed bottom-5 right-5 z-50 hidden items-center gap-3 bg-obsidian border-2 border-gold text-offwhite px-4 py-3 rounded shadow-2xl text-xs font-medium">
+    <span class="w-2 h-2 rounded-full bg-gold"></span>
+    <span id="toastMessage">Saved permanently.</span>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- APPLICATION LOGIC & PERSISTENT INDEXEDDB STORE                        -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. BESPOKE 2D GRAPHIC NOVEL SVG PORTRAIT GENERATOR
+    //    Matches exact dark chiaroscuro DC graphic novel aesthetic & redesigns
+    // =========================================================================
+    function getPortraitSVG(artKey) {
+      const svgs = {
+        electromark: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="emBg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#090D16"/><stop offset="65%" stop-color="#141E30"/><stop offset="100%" stop-color="#1E3A5F"/>
+              </linearGradient>
+              <radialGradient id="boltGlow" cx="50%" cy="75%" r="45%">
+                <stop offset="0%" stop-color="#93C5FD" stop-opacity="0.85"/><stop offset="50%" stop-color="#3B82F6" stop-opacity="0.3"/><stop offset="100%" stop-color="#090D16" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="400" fill="url(#emBg)"/>
+            <rect width="300" height="400" fill="url(#boltGlow)"/>
+            <!-- Rain-slicked city silhouettes -->
+            <rect x="15" y="90" width="45" height="220" fill="#06080D" opacity="0.85"/>
+            <rect x="235" y="70" width="50" height="240" fill="#06080D" opacity="0.85"/>
+            <!-- Torso & Head (Matte Black & Dull Gold Tactical Suit) -->
+            <circle cx="150" cy="82" r="24" fill="#D8C3B0" stroke="#06080D" stroke-width="3"/>
+            <path d="M128 75 Q150 52 172 75 Q168 62 150 60 Q132 62 128 75 Z" fill="#12141A"/>
+            <path d="M140 82 L147 84 M160 82 L153 84" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Upper Torso Armor -->
+            <path d="M108 122 L132 108 L168 108 L192 122 L182 215 L118 215 Z" fill="#141821" stroke="#06080D" stroke-width="3.5"/>
+            <!-- Gold Chest Chevron -->
+            <path d="M122 132 L150 162 L178 132 L172 146 L150 174 L128 146 Z" fill="#D4AF37"/>
+            <!-- Arms floating calmly -->
+            <path d="M108 122 L84 195 L98 202 L118 145 Z" fill="#141821" stroke="#06080D" stroke-width="3"/>
+            <path d="M192 122 L216 195 L202 202 L182 145 Z" fill="#141821" stroke="#06080D" stroke-width="3"/>
+            <!-- Lower Torso Dissolving into Pure White-Blue Arc Lightning -->
+            <path d="M120 212 L142 255 L125 295 L155 345 L138 390" fill="none" stroke="#E0F2FE" stroke-width="6" stroke-linecap="round"/>
+            <path d="M150 210 L165 260 L145 305 L172 360 L160 395" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
+            <path d="M178 212 L158 250 L182 292 L152 335 L175 385" fill="none" stroke="#60A5FA" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M110 230 L135 245 M190 228 L165 248 M128 275 L175 270 M118 320 L184 315" stroke="#BAE6FD" stroke-width="2.5"/>
+            <!-- Ink Crosshatching -->
+            <path d="M125 180 L140 185 M124 188 L138 192 M162 182 L176 186" stroke="#06080D" stroke-width="2"/>
+          </svg>`,
+
+        arion: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="arBg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1F1114"/><stop offset="100%" stop-color="#0B0E14"/>
+              </linearGradient>
+            </defs>
+            <rect width="300" height="400" fill="url(#arBg)"/>
+            <circle cx="150" cy="140" r="110" fill="#9E1B24" opacity="0.22"/>
+            <!-- Ancestral Crimson Ares Spear -->
+            <line x1="225" y1="35" x2="205" y2="385" stroke="#785A28" stroke-width="5"/>
+            <polygon points="226,18 212,68 226,58 240,68" fill="#B91C1C" stroke="#06080D" stroke-width="2.5"/>
+            <!-- Lean Athletic Thor-Sized Silhouette -->
+            <circle cx="145" cy="84" r="23" fill="#D5B89E" stroke="#06080D" stroke-width="3"/>
+            <path d="M121 82 Q132 54 148 56 Q168 56 171 86 Q164 68 145 68 Q128 68 121 82 Z" fill="#181515"/>
+            <!-- Streamlined Bronze & Crimson God Mode Armor -->
+            <path d="M104 122 L128 110 L164 110 L188 122 L175 235 L115 235 Z" fill="#2A1D17" stroke="#06080D" stroke-width="3.5"/>
+            <path d="M112 124 L145 148 L178 124 L170 165 L145 180 L120 165 Z" fill="#9A7B3E" stroke="#06080D" stroke-width="2.5"/>
+            <path d="M124 185 L166 185 L162 225 L128 225 Z" fill="#7F1D1D" stroke="#06080D" stroke-width="2"/>
+            <!-- Arms & Legs -->
+            <path d="M104 122 L82 215 L98 220 L114 148 Z" fill="#2A1D17" stroke="#06080D" stroke-width="3"/>
+            <path d="M188 122 L214 195 L198 202 L176 148 Z" fill="#9A7B3E" stroke="#06080D" stroke-width="3"/>
+            <path d="M116 235 L108 375 L134 375 L144 260 L156 375 L182 375 L174 235 Z" fill="#1C1917" stroke="#06080D" stroke-width="3.5"/>
+          </svg>`,
+
+        shift: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="400" fill="#12161F"/>
+            <!-- Speed Ink Motion Lines -->
+            <line x1="15" y1="110" x2="275" y2="95" stroke="#9E1B24" stroke-width="2" opacity="0.55"/>
+            <line x1="10" y1="185" x2="285" y2="170" stroke="#94A3B8" stroke-width="1.5" opacity="0.45"/>
+            <line x1="25" y1="265" x2="290" y2="245" stroke="#9E1B24" stroke-width="2.5" opacity="0.5"/>
+            <!-- Teenage Speedster Crouching Acrobatic Pose -->
+            <circle cx="155" cy="115" r="22" fill="#E0C8B6" stroke="#06080D" stroke-width="3"/>
+            <!-- Exposed Messy Dark Hair -->
+            <path d="M130 110 L122 92 L138 96 L144 80 L156 93 L168 78 L174 95 L186 90 L178 112 Z" fill="#111318" stroke="#06080D" stroke-width="2"/>
+            <!-- Sleek Lower-Face Mask -->
+            <path d="M135 117 Q155 123 175 117 L170 135 Q155 141 140 135 Z" fill="#334155" stroke="#06080D" stroke-width="2.5"/>
+            <!-- Slate-Grey & Crimson-Burgundy Runner Suit -->
+            <path d="M115 152 L140 140 L175 142 L195 162 L176 245 L124 242 Z" fill="#3B4252" stroke="#06080D" stroke-width="3.5"/>
+            <path d="M126 154 L155 182 L184 156 L176 195 L155 212 L134 195 Z" fill="#7F1D1D" stroke="#06080D" stroke-width="2"/>
+            <!-- Dynamic crouched limbs -->
+            <path d="M115 152 L75 215 L95 225 L126 178 Z" fill="#7F1D1D" stroke="#06080D" stroke-width="3"/>
+            <path d="M195 162 L232 205 L215 218 L182 182 Z" fill="#3B4252" stroke="#06080D" stroke-width="3"/>
+            <path d="M124 242 L92 310 L118 355 L140 348 L120 308 L148 265 L172 312 L162 358 L186 360 L198 305 L176 245 Z" fill="#3B4252" stroke="#06080D" stroke-width="3.5"/>
+          </svg>`,
+
+        vance: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="400" fill="#100F17"/>
+            <circle cx="150" cy="180" r="120" fill="#D97706" opacity="0.12"/>
+            <!-- Massive 9-Foot Striated Charcoal-Violet Obsidian Colossus -->
+            <path d="M72 115 L112 88 L188 88 L228 115 L214 258 L86 258 Z" fill="#231F2E" stroke="#06080D" stroke-width="4"/>
+            <!-- Heavy Stoic Brow & Head -->
+            <rect x="122" y="52" width="56" height="44" rx="8" fill="#2D283B" stroke="#06080D" stroke-width="3.5"/>
+            <line x1="132" y1="72" x2="145" y2="74" stroke="#F59E0B" stroke-width="3"/>
+            <line x1="168" y1="72" x2="155" y2="74" stroke="#F59E0B" stroke-width="3"/>
+            <!-- Striated Obsidian Dermal Plates & Glowing Amber Bio-Veins -->
+            <path d="M95 125 L145 142 L110 185 Z M205 125 L155 142 L190 185 Z" fill="#352F44" stroke="#06080D" stroke-width="2.5"/>
+            <path d="M115 130 L142 165 L130 225 M185 130 L158 165 L170 225 M90 160 L72 230 M210 160 L228 230" fill="none" stroke="#F59E0B" stroke-width="2.5" opacity="0.85"/>
+            <!-- Massive Arms -->
+            <path d="M72 115 L44 245 L74 252 L92 155 Z" fill="#231F2E" stroke="#06080D" stroke-width="4"/>
+            <path d="M228 115 L256 245 L226 252 L208 155 Z" fill="#231F2E" stroke="#06080D" stroke-width="4"/>
+            <!-- Tattered Containment Trousers -->
+            <path d="M88 258 L82 380 L136 380 L150 295 L164 380 L218 380 L212 258 Z" fill="#181A20" stroke="#06080D" stroke-width="4"/>
+          </svg>`,
+
+        corvus: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="400" fill="#0C0F15"/>
+            <!-- Rooftop Moonlit Silhouette -->
+            <circle cx="220" cy="75" r="38" fill="#E2E8F0" opacity="0.12"/>
+            <!-- Lethal Female Kunoichi -->
+            <circle cx="150" cy="95" r="22" fill="#141820" stroke="#06080D" stroke-width="3"/>
+            <!-- Narrow Eye Slit -->
+            <rect x="134" y="88" width="32" height="9" rx="3" fill="#DFC5B0"/>
+            <circle cx="142" cy="92" r="2" fill="#06080D"/>
+            <circle cx="158" cy="92" r="2" fill="#06080D"/>
+            <!-- Sleek Dark Tactical Shinobi Suit -->
+            <path d="M116 128 L138 118 L162 118 L184 128 L172 225 L128 225 Z" fill="#181D26" stroke="#06080D" stroke-width="3.5"/>
+            <path d="M126 142 L174 168 M174 142 L126 168" stroke="#334155" stroke-width="3"/>
+            <!-- Twin Dark-Steel Ninjato Blades -->
+            <polygon points="75,215 35,135 42,132 82,212" fill="#94A3B8" stroke="#06080D" stroke-width="2"/>
+            <polygon points="225,215 265,135 258,132 218,212" fill="#94A3B8" stroke="#06080D" stroke-width="2"/>
+            <!-- Arms & Crouched Legs -->
+            <path d="M116 128 L76 212 L90 218 L124 152 Z" fill="#181D26" stroke="#06080D" stroke-width="3"/>
+            <path d="M184 128 L224 212 L210 218 L176 152 Z" fill="#181D26" stroke="#06080D" stroke-width="3"/>
+            <path d="M128 225 L102 315 L126 365 L144 360 L128 312 L150 255 L172 312 L156 360 L174 365 L198 315 L172 225 Z" fill="#11151C" stroke="#06080D" stroke-width="3.5"/>
+          </svg>`,
+
+        slate: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="400" fill="#0E121A"/>
+            <!-- Mutated 6'4" Slate-Grey Wolf-Panther Hybrid -->
+            <path d="M90 112 L122 92 L178 92 L210 112 L195 245 L105 245 Z" fill="#333B48" stroke="#06080D" stroke-width="4"/>
+            <!-- Lupine-Feline Ears & Snout -->
+            <polygon points="122,92 116,52 138,76" fill="#333B48" stroke="#06080D" stroke-width="3"/>
+            <polygon points="178,92 184,52 162,76" fill="#333B48" stroke="#06080D" stroke-width="3"/>
+            <circle cx="150" cy="84" r="24" fill="#3E4756" stroke="#06080D" stroke-width="3"/>
+            <polygon points="138,85 150,76 162,85 150,98" fill="#1F242D"/>
+            <!-- Glowing Amber Eyes -->
+            <circle cx="140" cy="76" r="3" fill="#F59E0B"/>
+            <circle cx="160" cy="76" r="3" fill="#F59E0B"/>
+            <!-- Arms with Glowing Blue Suppressor Cuff -->
+            <path d="M90 112 L65 225 L88 230 L106 145 Z" fill="#333B48" stroke="#06080D" stroke-width="3.5"/>
+            <path d="M210 112 L235 225 L212 230 L194 145 Z" fill="#333B48" stroke="#06080D" stroke-width="3.5"/>
+            <rect x="64" y="198" width="26" height="16" rx="3" fill="#0F172A" stroke="#38BDF8" stroke-width="2.5"/>
+            <line x1="68" y1="206" x2="86" y2="206" stroke="#38BDF8" stroke-width="2"/>
+            <!-- Dark Tactical Cargo Pants -->
+            <path d="M105 245 L98 378 L142 378 L150 285 L158 378 L202 378 L195 245 Z" fill="#181C24" stroke="#06080D" stroke-width="4"/>
+          </svg>`,
+
+        outcast: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="400" fill="#0B101B"/>
+            <!-- Jagged Tattered Cape Billowing -->
+            <polygon points="112,115 45,355 78,335 102,372 135,340 165,375 198,338 228,365 255,345 188,115" fill="#161B26" stroke="#06080D" stroke-width="3"/>
+            <!-- Cobalt-Blue Human-Proportioned Alien Paragon -->
+            <circle cx="150" cy="80" r="22" fill="#2563EB" stroke="#06080D" stroke-width="3"/>
+            <path d="M128 74 Q150 52 172 74 Q165 60 150 60 Q135 60 128 74 Z" fill="#0F172A"/>
+            <!-- Glowing White Eyes -->
+            <ellipse cx="142" cy="80" rx="4" ry="2.2" fill="#FFFFFF"/>
+            <ellipse cx="158" cy="80" rx="4" ry="2.2" fill="#FFFFFF"/>
+            <!-- Sleek Dark-Charcoal & Silver Alien Suit -->
+            <path d="M110 116 L132 106 L168 106 L190 116 L178 232 L122 232 Z" fill="#1E2430" stroke="#06080D" stroke-width="3.5"/>
+            <polygon points="124,124 150,152 176,124 166,138 150,158 134,138" fill="#94A3B8"/>
+            <!-- Arms & Hovering Legs -->
+            <path d="M110 116 L88 212 L104 216 L120 142 Z" fill="#1E2430" stroke="#06080D" stroke-width="3"/>
+            <path d="M190 116 L212 212 L196 216 L180 142 Z" fill="#1E2430" stroke="#06080D" stroke-width="3"/>
+            <circle cx="95" cy="218" r="8" fill="#2563EB"/>
+            <circle cx="205" cy="218" r="8" fill="#2563EB"/>
+            <path d="M122 232 L118 358 L142 358 L150 262 L158 358 L182 358 L178 232 Z" fill="#1E2430" stroke="#06080D" stroke-width="3.5"/>
+          </svg>`,
+
+        morvaya: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="400" fill="#0D0B16"/>
+            <!-- Desaturated Violet Eldritch Sigil Rings -->
+            <circle cx="150" cy="185" r="95" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="10 6" opacity="0.65"/>
+            <circle cx="150" cy="185" r="78" fill="none" stroke="#A78BFA" stroke-width="1.5" opacity="0.45"/>
+            <!-- Layered Midnight-Blue Sorceress Robes -->
+            <polygon points="150,105 92,365 208,365" fill="#172038" stroke="#06080D" stroke-width="3.5"/>
+            <polygon points="150,112 126,365 174,365" fill="#0F172A" stroke="#94A3B8" stroke-width="1.5"/>
+            <!-- Head & Hood -->
+            <path d="M124 88 Q150 48 176 88 L170 112 L130 112 Z" fill="#172038" stroke="#06080D" stroke-width="3"/>
+            <circle cx="150" cy="86" r="17" fill="#D6C7C2"/>
+            <circle cx="144" cy="85" r="2.2" fill="#A855F7"/>
+            <circle cx="156" cy="85" r="2.2" fill="#A855F7"/>
+            <!-- Arms Weaving Dimensional Magic -->
+            <path d="M126 122 L72 175 L84 188 L132 145 Z" fill="#172038" stroke="#06080D" stroke-width="3"/>
+            <path d="M174 122 L228 175 L216 188 L168 145 Z" fill="#172038" stroke="#06080D" stroke-width="3"/>
+            <circle cx="72" cy="180" r="16" fill="none" stroke="#8B5CF6" stroke-width="2.5"/>
+            <circle cx="228" cy="180" r="16" fill="none" stroke="#8B5CF6" stroke-width="2.5"/>
+          </svg>`,
+
+        default: `
+          <svg viewBox="0 0 300 400" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="400" fill="#121722"/>
+            <circle cx="150" cy="120" r="36" fill="#1E2638" stroke="#D4AF37" stroke-width="2"/>
+            <path d="M90 290 Q150 200 210 290 Z" fill="#1E2638" stroke="#D4AF37" stroke-width="2"/>
+            <text x="150" y="345" text-anchor="middle" fill="#D4AF37" font-family="sans-serif" font-size="14" font-weight="bold">ZIXO ARCHIVE</text>
+          </svg>`
+      };
+      return svgs[artKey] || svgs.default;
+    }
+
+    // Universe Emblem SVGs
+    function getUniverseEmblemSVG(key) {
+      const emblems = {
+        'Pantheon-X': `<svg class="w-10 h-10 text-gold" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="24,4 42,14 42,34 24,44 6,34 6,14"/><path d="M26 12L16 26H24L22 36L32 22H24L26 12Z" fill="currentColor"/></svg>`,
+        'Guardians of Balance': `<svg class="w-10 h-10 text-emerald-400" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="24" cy="24" r="18"/><path d="M24 6A18 18 0 0 1 24 42A9 9 0 0 1 24 24A9 9 0 0 0 24 6Z" fill="currentColor" opacity="0.35"/><circle cx="24" cy="15" r="2.5" fill="currentColor"/><circle cx="24" cy="33" r="2.5" fill="currentColor"/></svg>`,
+        'Crow Angel': `<svg class="w-10 h-10 text-sky-300" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M24 6L28 22L42 16L30 28L36 42L24 33L12 42L18 28L6 16L20 22L24 6Z"/></svg>`,
+        'The Void Ascendant': `<svg class="w-10 h-10 text-purple-400" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="24,4 44,24 24,44 4,24"/><circle cx="24" cy="24" r="8"/><line x1="24" y1="4" x2="24" y2="44"/></svg>`,
+        'Alpha Shinobi': `<svg class="w-10 h-10 text-red-400" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="24,4 29,19 44,24 29,29 24,44 19,29 4,24 19,19"/><circle cx="24" cy="24" r="4" fill="currentColor"/></svg>`
+      };
+      return emblems[key] || emblems['Pantheon-X'];
+    }
+
+    // =========================================================================
+    // 2. DEFAULT CREATOR DATA (PANTHEON-X, 5 UNIVERSES, 6 FULL ISSUES)
+    // =========================================================================
+    const DEFAULT_UNIVERSES = [
+      {
+        id: 'Pantheon-X',
+        name: 'Pantheon-X Universe',
+        status: 'ACTIVE FLAGSHIP',
+        comingSoon: false,
+        tagline: 'High-Voltage Strategy Meets Mythic Bloodlines',
+        synopsis: 'Set in rain-drenched Iron City, a living electrical strategist, an unchecked Ares war-god, a teenage speedster, and survivors of black-site genetics form an off-grid alliance against corporate tyranny and astral warlords.',
+        accent: 'gold'
+      },
+      {
+        id: 'Guardians of Balance',
+        name: 'Guardians of Balance Universe',
+        status: 'ACTIVE SERIES',
+        comingSoon: false,
+        tagline: 'Elemental Wardens of the Cosmic Equilibrium',
+        synopsis: 'When ancient planetary leylines fracture across the globe, four chosen conduits of Earth, Tide, Gale, and Solar Flame must keep reality from collapsing into primordial chaos.',
+        accent: 'emerald'
+      },
+      {
+        id: 'Crow Angel',
+        name: 'Crow Angel Universe',
+        status: 'ACTIVE SERIES',
+        comingSoon: false,
+        tagline: 'Gothic Vengeance Between Heaven and the Gutter',
+        synopsis: 'Stripped of celestial grace and cast into a crime-ridden metropolis, a fallen Seraphim wields obsidian feathers and shadow-forged steel to hunt the syndicates preying on the innocent.',
+        accent: 'sky'
+      },
+      {
+        id: 'The Void Ascendant',
+        name: 'The Void Ascendant Universe',
+        status: 'ACTIVE SERIES',
+        comingSoon: false,
+        tagline: 'Beyond the Event Horizon Lies Absolute Will',
+        synopsis: 'At the edge of known space, a lone survivor of a collapsed star system masters dark-matter sovereignty—navigating cosmic empires, dying galaxies, and extradimensional leviathans.',
+        accent: 'purple'
+      },
+      {
+        id: 'Alpha Shinobi',
+        name: 'Alpha Shinobi Universe',
+        status: 'COMING SOON — IN DEVELOPMENT',
+        comingSoon: true,
+        tagline: 'Ancient Blade Craft in a Neon-Drenched Shadow War',
+        synopsis: 'Currently in active development at ZixoComics. Clan warfare, cyber-forged katanas, and forbidden shadow arts collide in a gritty martial-arts epic.',
+        accent: 'crimson'
+      }
+    ];
+
+    const DEFAULT_CHARACTERS = [
+      {
+        id: 'char-electromark',
+        universe: 'Pantheon-X',
+        codename: 'Electromark',
+        civilianName: 'Bryan Cole',
+        role: 'The Living Current • Master Strategist',
+        artKey: 'electromark',
+        customImage: '',
+        stats: { power: 96, combat: 25, strategy: 99 },
+        bio: 'After his father’s bio-electrical experiment went catastrophically sideways, Bryan’s cells rewrote themselves into sentient current. He dissolves his lower torso into pure white-blue lightning to hover, reshapes static into clothes or his matte-black and gold suit, and regenerates from ambient electrons. Grounded by his civilian girlfriend Chloe.',
+        tacticalNotes: 'Zero martial arts training—never throws a punch. Treats every battlefield like a circuit board and relies on 100% electrical devastation.'
+      },
+      {
+        id: 'char-arion',
+        universe: 'Pantheon-X',
+        codename: 'Arion',
+        civilianName: 'Chris Thorne',
+        role: 'The Unchecked Blade • Heir of Ares',
+        artKey: 'arion',
+        customImage: '',
+        stats: { power: 94, combat: 95, strategy: 62 },
+        bio: 'Carrying the direct bloodline of Ares, Chris is lean, athletic, and lethal. He summons streamlined bronze-and-crimson God Mode armor and wields an ancestral crimson war-spear capable of cleaving through divine constructs.',
+        tacticalNotes: 'Fatal Flaw: Refuses to hold back. Fighting at 100% output drains his godly stamina rapidly unless Bryan manages his timing.'
+      },
+      {
+        id: 'char-shift',
+        universe: 'Pantheon-X',
+        codename: 'Shift',
+        civilianName: 'Jonah Reed',
+        role: 'The Street-Level Blur • Kinetic Acrobat',
+        artKey: 'shift',
+        customImage: '',
+        stats: { power: 86, combat: 78, strategy: 74 },
+        bio: 'Eighteen years old, lean, and hyper-agile. Wearing a slate-grey and crimson-burgundy runner suit with a lower-face mask and his messy dark hair whipping in the wind, Jonah uses nonstop banter to mask the pressure of lethal rescues.',
+        tacticalNotes: 'High-speed civilian evacuation and kinetic wall-ricochet strikes; balances Bryan’s cold detachment.'
+      },
+      {
+        id: 'char-vance',
+        universe: 'Pantheon-X',
+        codename: 'Dr. James Vance',
+        civilianName: 'Dr. James Vance',
+        role: 'The Cellular Colossus • Obsidian Powerhouse',
+        artKey: 'vance',
+        customImage: '',
+        stats: { power: 97, combat: 82, strategy: 91 },
+        bio: 'Once a respected geneticist before Pierce’s black-site mutation twisted him into a nine-foot powerhouse of striated charcoal-violet obsidian dermal plates and glowing amber bio-veins. Pure organic strength with zero armor or cybernetics.',
+        tacticalNotes: 'Retains his full scientific intellect inside a near-indestructible frame; anchors heavy frontline breaches.'
+      },
+      {
+        id: 'char-corvus',
+        universe: 'Pantheon-X',
+        codename: 'Corvus',
+        civilianName: 'Maya Lin',
+        role: 'The Quiet Knife • Shadow Kunoichi',
+        artKey: 'corvus',
+        customImage: '',
+        stats: { power: 55, combat: 98, strategy: 90 },
+        bio: 'A lethal female ninja and master assassin operating in Iron City’s underworld. Dressed in a form-fitting dark tactical shinobi suit with twin dark-steel ninjato blades, Maya represents pure martial discipline.',
+        tacticalNotes: 'The exact tactical opposite of Electromark: zero superpowers, 100% stealth infiltration and surgical precision.'
+      },
+      {
+        id: 'char-slate',
+        universe: 'Pantheon-X',
+        codename: 'Slate',
+        civilianName: 'Marcus Bell',
+        role: 'The Unchained Beast • Controlled Predator',
+        artKey: 'slate',
+        customImage: '',
+        stats: { power: 89, combat: 88, strategy: 68 },
+        bio: 'Mutated into a massive 6\'4" slate-grey wolf-panther hybrid in Pierce’s holding cells. Halfway through Vol. 1, Bryan engineers a bio-electrical suppressor wrist cuff calibrated to Marcus’s DNA—allowing him to shift back into a normal man at will.',
+        tacticalNotes: 'Fiercely loyal to Bryan and protective of Chloe; switches between human stealth and apex predator brawling.'
+      },
+      {
+        id: 'char-outcast',
+        universe: 'Pantheon-X',
+        codename: 'Outcast',
+        civilianName: 'Liam Carter (Earth Alias)',
+        role: 'The Cobalt Paragon • Off-World Titan',
+        artKey: 'outcast',
+        customImage: '',
+        stats: { power: 98, combat: 87, strategy: 80 },
+        bio: 'A human-proportioned, athletic extraterrestrial superhero with smooth cobalt-blue skin, glowing white eyes, and a dark suit draped in a jagged, battle-torn cape. Stranded far from his homeworld, he walks among humans under the alias Liam Carter.',
+        tacticalNotes: 'Orbital flight, planetary-grade durability, and ocular energy projection.'
+      },
+      {
+        id: 'char-morvaya',
+        universe: 'Pantheon-X',
+        codename: 'Morvaya',
+        civilianName: 'Zara Cross',
+        role: 'The Void Sorceress • Astral Weaver',
+        artKey: 'morvaya',
+        customImage: '',
+        stats: { power: 95, combat: 70, strategy: 92 },
+        bio: 'Draped in layered midnight-blue robes with runes etched across her hands, Zara channels desaturated violet eldritch sigil rings to seal dimensional rifts and counter occult threats.',
+        tacticalNotes: 'Essential countermeasure against Lord Malachai’s dark-astral rituals and dimensional tears.'
+      },
+      {
+        id: 'char-solaris-warden',
+        universe: 'Guardians of Balance',
+        codename: 'Aurelius',
+        civilianName: 'Devon Brooks',
+        role: 'Solar Warden • Conduit of Dawn',
+        artKey: 'default',
+        customImage: '',
+        stats: { power: 90, combat: 84, strategy: 79 },
+        bio: 'Chosen by the Meridian Obelisk to channel focused solar plasma and stabilize tectonic leyline fractures alongside the three elemental wardens.',
+        tacticalNotes: 'Starter archive entry—expandable via ZixoComics Admin Panel.'
+      },
+      {
+        id: 'char-seraph-crow',
+        universe: 'Crow Angel',
+        codename: 'Crow Angel',
+        civilianName: 'Caleb Mercer',
+        role: 'The Fallen Seraph • Gothic Vigilante',
+        artKey: 'default',
+        customImage: '',
+        stats: { power: 88, combat: 94, strategy: 83 },
+        bio: 'Cast down from the Seventh Choir with blackened wings and twin ash-forged blades, hunting occult crime lords across rain-soaked cathedral rooftops.',
+        tacticalNotes: 'Starter archive entry—expandable via ZixoComics Admin Panel.'
+      },
+      {
+        id: 'char-void-herald',
+        universe: 'The Void Ascendant',
+        codename: 'Null-Prime',
+        civilianName: 'Vaelen',
+        role: 'Sovereign of the Dark Expanse',
+        artKey: 'default',
+        customImage: '',
+        stats: { power: 99, combat: 85, strategy: 94 },
+        bio: 'Forged inside the singularity of a dying star system, wielding gravitational lensing and dark-matter constructs across deep space.',
+        tacticalNotes: 'Starter archive entry—expandable via ZixoComics Admin Panel.'
+      }
+    ];
+
+    const PANTHEON_ISSUES = [
+      {
+        number: 1,
+        title: 'Live Wire',
+        arc: 'Vol. 1: Dead Circuit',
+        coverArt: 'electromark',
+        releaseDate: 'Issue #01 • 28 Pages',
+        synopsis: 'A sub-basement containment failure rewrites Bryan Cole into living electricity. Learning to snap street clothes out of static before meeting Chloe, he flattens Pierce’s dockside bioweapon without throwing a single punch.',
+        pages: [
+          {
+            pageNum: 1,
+            caption: 'IRON CITY — SUB-LEVEL LAB 04. 11:42 PM.',
+            visual: 'Emergency strobes cut through thick chemical smoke. Glass containment tubes lie shattered across wet concrete. Hovering three feet above the floor on a crackling column of white-blue arc lightning is BRYAN COLE—his lower torso dissolved into pure current.',
+            speaker: 'BRYAN COLE (ELECTROMARK)',
+            dialogue: '"My pulse sounds like a high-voltage transformer... and the floor feels a thousand miles away."'
+          },
+          {
+            pageNum: 2,
+            caption: 'MIDTOWN APARTMENT — 45 MINUTES LATER.',
+            visual: 'Bryan steps onto the fire escape. With a sharp snap of static, the matte-black and dull-gold suit vanishes, weaving seamlessly into a dark jacket and jeans before he opens the window to meet Chloe.',
+            speaker: 'CHLOE',
+            dialogue: '"You’re shaking, Bryan. Tell me you didn’t go back down to your dad’s lab tonight."'
+          },
+          {
+            pageNum: 3,
+            caption: 'PIER 19 — IRON CITY DOCKS.',
+            visual: 'Director Sterling Pierce’s mercenaries unleash a hulking bioweapon to cover up an illegal shipment. High above the rain-slicked steel containers, Electromark floats silently in the downpour.',
+            speaker: 'ELECTROMARK',
+            dialogue: '"You built a storm in a bottle, and now you’re surprised it broke the glass. The steel beneath your boots is soaked—let’s check the conductivity."'
+          }
+        ]
+      },
+      {
+        number: 2,
+        title: "Ares Doesn't Blink",
+        arc: 'Vol. 1: Dead Circuit',
+        coverArt: 'arion',
+        releaseDate: 'Issue #02 • 26 Pages',
+        synopsis: 'Chris Thorne crashes into Midtown in bronze-and-crimson God Mode armor hunting an arcane war-hound. Teenage speedster Jonah Reed (Shift) races to save commuters while Bryan traps the reckless war-god in an electromagnetic cage.',
+        pages: [
+          {
+            pageNum: 1,
+            caption: 'MIDTOWN ELEVATED RAIL — RUSH HOUR.',
+            visual: 'A seismic shockwave shatters the asphalt. Chris Thorne lands in a crouch, summoning sleek bronze-and-crimson God Mode plates and swinging his ancestral crimson war-spear at 100% output.',
+            speaker: 'ARION (CHRIS THORNE)',
+            dialogue: '"The blood of Ares does not measure its strike! Fall, beast!"'
+          },
+          {
+            pageNum: 2,
+            caption: '0.04 SECONDS LATER.',
+            visual: 'Steel girders buckle above crowded train cars. A blur of slate-grey and crimson-burgundy streaks across the rails—18-year-old Jonah Reed (Shift), messy dark hair whipping in the wind as he carries commuters clear.',
+            speaker: 'SHIFT (JONAH REED)',
+            dialogue: '"Hey, Conan! Next time you wanna remodel downtown, maybe give transit a heads-up first?!"'
+          },
+          {
+            pageNum: 3,
+            caption: 'AIRSPACE ABOVE 5TH AVENUE.',
+            visual: 'Electromark levitates calmly as Arion’s godly stamina rapidly burns out. Blue-white electromagnetic rings lock around Chris’s arms until his armor dissolves.',
+            speaker: 'ELECTROMARK',
+            dialogue: '"All power and zero restraint makes you predictable, warrior. Sit down before you collapse."'
+          }
+        ]
+      },
+      {
+        number: 3,
+        title: 'Sub-Level Four',
+        arc: 'Vol. 1: Dead Circuit',
+        coverArt: 'corvus',
+        releaseDate: 'Issue #03 • 28 Pages',
+        synopsis: 'Bryan recruits lethal kunoichi Maya Lin (Corvus) to infiltrate Pierce’s black-site facility. Deep inside, they discover feral wolf-panther Marcus Bell (Slate) and Dr. James Vance—mutated into a 9-foot colossus of obsidian plates.',
+        pages: [
+          {
+            pageNum: 1,
+            caption: 'PIERCE BLACK-SITE — ROOFTOP PERIMETER.',
+            visual: 'Rain pours over industrial vents. Corvus crouches in total silence, twin dark-steel ninjato blades drawn, while Bryan cuts the facility’s primary power grid from an adjacent tower.',
+            speaker: 'CORVUS (MAYA LIN)',
+            dialogue: '"Keep your lightning off my floor, Cole. When I clear a room, nobody hears it."'
+          },
+          {
+            pageNum: 2,
+            caption: 'SUB-LEVEL FOUR — CONTAINMENT VAULT.',
+            visual: 'Reinforced steel doors tear off their hinges. Out steps Dr. James Vance—towering at nine feet, striated charcoal-violet obsidian dermal plates pulsing with faint amber bio-veins—alongside a snarling, chained Marcus Bell.',
+            speaker: 'DR. JAMES VANCE',
+            dialogue: '"Pierce thought stone and pressure would erase my mind... he only gave my anger weight."'
+          },
+          {
+            pageNum: 3,
+            caption: 'THE BREACH.',
+            visual: 'Arion charges Vance head-on in a foundation-cracking clash until Bryan emits a calibrated low-frequency bio-static pulse that quiets the neural pain driving Marcus and Vance berserk.',
+            speaker: 'ELECTROMARK',
+            dialogue: '"Stand down, Chris! They aren’t Pierce’s weapons—they’re his prisoners."'
+          }
+        ]
+      },
+      {
+        number: 4,
+        title: 'Human Again',
+        arc: 'Vol. 1: Dead Circuit',
+        coverArt: 'slate',
+        releaseDate: 'Issue #04 • 26 Pages',
+        synopsis: 'Bryan works 48 hours straight to build a bio-electrical suppressor cuff for Marcus Bell, letting him become human again. Meanwhile, Lord Malachai tears open an astral rift above Iron City, drawing Outcast and Morvaya into the fight.',
+        pages: [
+          {
+            pageNum: 1,
+            caption: 'ABANDONED RELAY STATION — 3:15 AM.',
+            visual: 'Sparks dance off Bryan’s fingertips as he locks a sleek blue-lined neural suppressor cuff around Slate’s scarred wrist. With a soft hum, the massive wolf-panther hide recedes—leaving Marcus Bell standing as a normal man for the first time in years.',
+            speaker: 'MARCUS BELL (SLATE)',
+            dialogue: '"I forgot what the air felt like without the rage humming in my teeth... I owe you my life, Bryan."'
+          },
+          {
+            pageNum: 2,
+            caption: 'UPPER ATMOSPHERE — IRON CITY SKYLINE.',
+            visual: 'A jagged violet rift splits the storm clouds as Lord Malachai begins siphoning Chris Thorne’s Ares lineage. Descending through the rain are cobalt-blue paragon Outcast and void sorceress Morvaya.',
+            speaker: 'MORVAYA (ZARA CROSS)',
+            dialogue: '"The astral seal is bleeding into your world. If Malachai finishes the chant, Iron City becomes a crater."'
+          }
+        ]
+      },
+      {
+        number: 5,
+        title: 'Grounded',
+        arc: 'Vol. 1: Dead Circuit',
+        coverArt: 'vance',
+        releaseDate: 'Issue #05 • 28 Pages',
+        synopsis: 'Pierce’s enforcers ambush Bryan’s residential block—putting Chloe in danger—while Overcharge drains Bryan’s standard lightning. Forced to outthink an energy absorber without throwing a punch, Bryan weaponizes phase-frequency overload.',
+        pages: [
+          {
+            pageNum: 1,
+            caption: 'OAKWOOD RESIDENTIAL DISTRICT.',
+            visual: 'Overcharge laughs as Bryan’s white-blue lightning arcs harmlessly into his insulated capacitors. Across the street, Gristle closes in on Chloe’s apartment building.',
+            speaker: 'OVERCHARGE',
+            dialogue: '"Keep shooting, sparky! Every volt you throw just charges my battery!"'
+          },
+          {
+            pageNum: 2,
+            caption: 'ZERO TECHNIQUE. PURE CALCULATION.',
+            visual: 'Electromark hovers motionless, eyes glowing ice-blue. Instead of raw amperage, he fires rapid, conflicting alternating-phase frequencies that shatter Overcharge’s regulators from the inside out—while Marcus snaps his suppressor off, shifting mid-leap into Slate to tear through Gristle.',
+            speaker: 'ELECTROMARK',
+            dialogue: '"You can hold current, Overcharge. You can’t hold chaos."'
+          }
+        ]
+      },
+      {
+        number: 6,
+        title: 'The Circuit Closes',
+        arc: 'Vol. 1: Dead Circuit — Finale',
+        coverArt: 'outcast',
+        releaseDate: 'Issue #06 • 32 Pages',
+        synopsis: 'All eight heroes converge on Malachai’s spire. Bryan holds Arion back on comms until Zara shatters Malachai’s wards—unleashing one clean God Mode strike that banishes the warlord and establishes the Pantheon-X Protocol.',
+        pages: [
+          {
+            pageNum: 1,
+            caption: 'MALACHAI’S SPIRE — APEX.',
+            visual: 'Shift and Corvus dismantle Pierce’s mercenary perimeter in seconds while Dr. James Vance and Outcast shatter the reinforced obsidian pillars anchoring the ritual.',
+            speaker: 'OUTCAST (LIAM CARTER)',
+            dialogue: '"The pillars are down! Sorceress—now!"'
+          },
+          {
+            pageNum: 2,
+            caption: 'THE DECISIVE STRIKE.',
+            visual: 'Morvaya’s desaturated violet sigil rings break Malachai’s shield. Over comms, Bryan gives the green light—and Chris Thorne triggers full God Mode for one devastating thrust with his ancestral crimson spear, banishing Malachai into the void.',
+            speaker: 'ELECTROMARK',
+            dialogue: '"Eight outcasts. One circuit. If Iron City breaks, we’re the ones standing in the gap."'
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 3. PERSISTENT STORAGE ENGINE (INDEXEDDB + LOCALSTORAGE FALLBACK)
+    // =========================================================================
+    const DB_NAME = 'ZixoComicsDB_v1';
+    const STORE_NAME = 'publisherState';
+    let dbInstance = null;
+
+    let appState = {
+      adminPin: '1234',
+      universes: JSON.parse(JSON.stringify(DEFAULT_UNIVERSES)),
+      characters: JSON.parse(JSON.stringify(DEFAULT_CHARACTERS)),
+      issues: JSON.parse(JSON.stringify(PANTHEON_ISSUES))
+    };
+
+    function initIndexedDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) {
+          loadFromLocalStorageFallback();
+          if (!appState.adminPin) appState.adminPin = '1234';
+          resolve();
+          return;
+        }
+        const request = indexedDB.open(DB_NAME, 1);
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME);
+          }
+        };
+        request.onsuccess = (event) => {
+          dbInstance = event.target.result;
+          const tx = dbInstance.transaction(STORE_NAME, 'readonly');
+          const store = tx.objectStore(STORE_NAME);
+          const getReq = store.get('zixo_data');
+          getReq.onsuccess = () => {
+            if (getReq.result) {
+              appState = getReq.result;
+              if (!appState.adminPin) appState.adminPin = '1234';
+            } else {
+              saveAppState();
+            }
+            resolve();
+          };
+          getReq.onerror = () => {
+            loadFromLocalStorageFallback();
+            if (!appState.adminPin) appState.adminPin = '1234';
+            resolve();
+          };
+        };
+        request.onerror = () => {
+          loadFromLocalStorageFallback();
+          if (!appState.adminPin) appState.adminPin = '1234';
+          resolve();
+        };
+      });
+    }
+
+    function loadFromLocalStorageFallback() {
+      try {
+        const raw = localStorage.getItem('zixo_comics_backup');
+        if (raw) appState = JSON.parse(raw);
+      } catch (e) {}
+    }
+
+    function saveAppState() {
+      try {
+        localStorage.setItem('zixo_comics_backup', JSON.stringify(appState));
+      } catch (e) {}
+
+      if (dbInstance) {
+        try {
+          const tx = dbInstance.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          store.put(appState, 'zixo_data');
+        } catch (e) {}
+      }
+    }
+
+    function showToast(msg) {
+      const banner = document.getElementById('toastBanner');
+      const text = document.getElementById('toastMessage');
+      text.textContent = msg;
+      banner.classList.remove('hidden');
+      banner.classList.add('flex');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        banner.classList.add('hidden');
+        banner.classList.remove('flex');
+      }, 3200);
+    }
+
+    // =========================================================================
+    // 4. NAVIGATION & UI STATE
+    // =========================================================================
+    let currentSection = 'home';
+    let selectedUniverseFilter = 'ALL';
+    let currentReaderIssueNum = 1;
+    let currentReaderMode = 'scroll'; // 'scroll' | 'flip'
+    let currentFlipPageIdx = 0;
+    let isAdminUnlocked = false;
+    let pendingUploadDataUrl = '';
+
+    function navigateTo(sectionName, universeFilter = null) {
+      currentSection = sectionName;
+      document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
+      const target = document.getElementById(`section-${sectionName}`);
+      if (target) target.classList.remove('hidden');
+
+      // Update Desktop & Mobile Nav Highlight
+      document.querySelectorAll('.nav-btn, .mobile-nav-btn').forEach(btn => {
+        if (btn.dataset.nav === sectionName) {
+          btn.classList.add('text-gold', 'bg-white/5');
+          btn.classList.remove('text-gray-300');
+        } else {
+          btn.classList.remove('text-gold', 'bg-white/5');
+          btn.classList.add('text-gray-300');
+        }
+      });
+
+      if (sectionName === 'universe') {
+        if (universeFilter) selectedUniverseFilter = universeFilter;
+        renderUniverseSection();
+      } else if (sectionName === 'reader') {
+        renderComicReader();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('hidden');
+        el.classList.add('flex');
+      }
+    }
+
+    // =========================================================================
+    // 5. RENDER HOME SECTION
+    // =========================================================================
+    function renderHomeSection() {
+      // Hero Spotlight Cover Art (Electromark)
+      const emChar = appState.characters.find(c => c.id === 'char-electromark') || appState.characters[0];
+      const heroArtContainer = document.getElementById('heroSpotlightArt');
+      if (emChar && emChar.customImage) {
+        heroArtContainer.innerHTML = `<img src="${emChar.customImage}" alt="${emChar.codename}" class="w-full h-full object-cover" />`;
+      } else {
+        heroArtContainer.innerHTML = getPortraitSVG('electromark');
+      }
+
+      // Render Latest Issues Shelf (#1 - #6)
+      const shelf = document.getElementById('latestIssuesShelf');
+      shelf.innerHTML = appState.issues.map(issue => {
+        // Check if matching character has custom uploaded art
+        const matchingChar = appState.characters.find(c => c.artKey === issue.coverArt && c.customImage);
+        const coverVisual = matchingChar
+          ? `<img src="${matchingChar.customImage}" alt="${issue.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />`
+          : `<div class="w-full h-full group-hover:scale-105 transition-transform duration-500">${getPortraitSVG(issue.coverArt)}</div>`;
+
+        return `
+          <div class="rounded-lg comic-border bg-slateCard overflow-hidden flex flex-col justify-between group">
+            <div>
+              <div class="relative h-64 bg-obsidian overflow-hidden border-b border-white/10">
+                ${coverVisual}
+                <div class="absolute inset-0 bg-gradient-to-t from-slateCard via-transparent to-black/40"></div>
+                <div class="absolute top-3 left-3 corner-box bg-obsidian/95 px-2 py-0.5 text-xs font-display text-gold tracking-wider">
+                  ISSUE #0${issue.number}
+                </div>
+                <div class="absolute top-3 right-3 px-2 py-0.5 rounded bg-obsidian/90 border border-white/15 text-[10px] font-condensed uppercase tracking-wider text-gray-300">
+                  ${issue.releaseDate}
+                </div>
+                <div class="absolute bottom-3 left-4 right-4">
+                  <div class="text-[10px] font-condensed uppercase tracking-[0.2em] text-gold font-bold">${issue.arc}</div>
+                  <h3 class="font-display text-3xl text-offwhite tracking-wide leading-none mt-0.5">"${issue.title.toUpperCase()}"</h3>
+                </div>
+              </div>
+              <div class="p-5">
+                <p class="text-xs sm:text-sm text-gray-400 leading-relaxed line-clamp-3">
+                  ${issue.synopsis}
+                </p>
+              </div>
+            </div>
+            <div class="px-5 pb-5 pt-1">
+              <button onclick="openIssueInReader(${issue.number})" class="w-full py-2.5 px-4 rounded bg-obsidian border border-gold/50 group-hover:bg-gold group-hover:text-obsidian text-gold font-condensed uppercase tracking-wider font-bold text-xs transition-all">
+                Read Issue #${issue.number} →
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Render Multiverse Showcase Cards (All 5 Universes)
+      const grid = document.getElementById('universesShowcaseGrid');
+      grid.innerHTML = appState.universes.map(univ => {
+        const charCount = appState.characters.filter(c => c.universe === univ.id).length;
+        const badgeClass = univ.comingSoon
+          ? 'bg-crimson/25 border-crimson/60 text-red-300'
+          : 'bg-gold/15 border-gold/40 text-gold';
+
+        return `
+          <div class="rounded-lg comic-border bg-slateCard p-6 flex flex-col justify-between space-y-5 relative overflow-hidden ${univ.comingSoon ? 'opacity-90' : ''}">
+            <div class="space-y-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="p-2.5 rounded-lg bg-obsidian border border-white/10">
+                  ${getUniverseEmblemSVG(univ.id)}
+                </div>
+                <span class="px-2.5 py-1 rounded border text-[10px] font-condensed uppercase tracking-widest font-bold ${badgeClass}">
+                  ${univ.status}
+                </span>
+              </div>
+
+              <div>
+                <h3 class="font-display text-3xl text-offwhite tracking-wide">${univ.name.toUpperCase()}</h3>
+                <p class="text-xs font-condensed uppercase tracking-wider text-gold mt-0.5">${univ.tagline}</p>
+              </div>
+
+              <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                ${univ.synopsis}
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <span class="text-xs text-gray-400 font-medium">
+                ${univ.comingSoon ? 'In Development' : `${charCount} Archived Dossiers`}
+              </span>
+              <div class="flex items-center gap-2">
+                <button onclick="openUniverseDetailModal('${univ.id}')" class="px-3 py-1.5 rounded border border-white/20 hover:border-gold text-xs font-condensed uppercase tracking-wider font-bold text-gray-200 hover:text-gold transition-colors">
+                  Overview
+                </button>
+                ${!univ.comingSoon ? `
+                  <button onclick="navigateTo('universe', '${univ.id}')" class="px-3.5 py-1.5 rounded bg-gold hover:bg-goldHover text-obsidian text-xs font-condensed uppercase tracking-wider font-bold transition-colors">
+                    Roster →
+                  </button>
+                ` : `
+                  <span class="px-3 py-1.5 rounded bg-white/5 text-gray-500 text-xs font-condensed uppercase tracking-wider font-bold cursor-not-allowed">
+                    Locked
+                  </span>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openUniverseDetailModal(universeId) {
+      const univ = appState.universes.find(u => u.id === universeId);
+      if (!univ) return;
+      const chars = appState.characters.filter(c => c.universe === univ.id);
+
+      document.getElementById('universeModalContent').innerHTML = `
+        <div class="p-6 sm:p-8 space-y-5">
+          <div class="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
+            <div class="flex items-center gap-3.5">
+              <div class="p-3 rounded-lg bg-obsidian border border-gold/40">
+                ${getUniverseEmblemSVG(univ.id)}
+              </div>
+              <div>
+                <span class="text-[10px] font-condensed uppercase tracking-widest text-gold font-bold">${univ.status}</span>
+                <h2 class="font-display text-3xl sm:text-4xl text-offwhite tracking-wide">${univ.name.toUpperCase()}</h2>
+              </div>
+            </div>
+            <button onclick="closeModal('universeModal')" class="text-gray-400 hover:text-offwhite text-xl">✕</button>
+          </div>
+
+          <p class="text-sm font-condensed uppercase tracking-wider text-gold">${univ.tagline}</p>
+          <p class="text-sm text-gray-300 leading-relaxed">${univ.synopsis}</p>
+
+          <div class="bg-obsidian/80 border border-white/10 rounded-lg p-4">
+            <div class="text-xs font-condensed uppercase tracking-wider text-gray-400 mb-2">Registered Characters (${chars.length})</div>
+            ${chars.length > 0 ? `
+              <div class="flex flex-wrap gap-2">
+                ${chars.map(c => `<span class="px-2.5 py-1 rounded bg-slateCard border border-white/15 text-xs text-offwhite font-medium">${c.codename} <span class="text-gray-400">(${c.civilianName})</span></span>`).join('')}
+              </div>
+            ` : `<p class="text-xs text-gray-500 italic">Character dossiers currently locked in development. Use the Creator Admin Panel to add characters anytime.</p>`}
+          </div>
+
+          <div class="flex justify-end gap-3 pt-2">
+            <button onclick="closeModal('universeModal')" class="px-4 py-2 rounded border border-white/20 text-xs font-condensed uppercase tracking-wider font-bold text-gray-300">Close</button>
+            ${!univ.comingSoon ? `
+              <button onclick="closeModal('universeModal'); navigateTo('universe', '${univ.id}')" class="px-5 py-2 rounded bg-gold text-obsidian text-xs font-condensed uppercase tracking-wider font-bold">
+                Open Universe Roster →
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+      openModal('universeModal');
+    }
+
+    // =========================================================================
+    // 6. RENDER UNIVERSES & ROSTER SECTION
+    // =========================================================================
+    function renderUniverseSection() {
+      const tabsContainer = document.getElementById('universeFilterTabs');
+      const allFilters = [{ id: 'ALL', name: 'All Universes', comingSoon: false }, ...appState.universes];
+
+      tabsContainer.innerHTML = allFilters.map(f => {
+        const isActive = selectedUniverseFilter === f.id;
+        return `
+          <button onclick="selectedUniverseFilter='${f.id}'; renderUniverseSection()" class="px-4 py-2 rounded font-condensed uppercase tracking-wider text-xs font-bold border transition-all flex items-center gap-2 ${
+            isActive
+              ? 'bg-gold text-obsidian border-gold shadow-md shadow-gold/20'
+              : 'bg-slateCard text-gray-300 border-white/15 hover:border-gold/60 hover:text-gold'
+          }">
+            <span>${f.name}</span>
+            ${f.comingSoon ? `<span class="px-1.5 py-0.5 rounded text-[9px] bg-crimson text-offwhite">SOON</span>` : ''}
+          </button>
+        `;
+      }).join('');
+
+      // Active Universe Context Banner
+      const banner = document.getElementById('activeUniverseBanner');
+      if (selectedUniverseFilter === 'ALL') {
+        banner.innerHTML = `
+          <div>
+            <div class="text-xs font-condensed uppercase tracking-widest text-gold font-bold">Complete Multiverse Index</div>
+            <h2 class="font-display text-2xl sm:text-3xl text-offwhite tracking-wide mt-0.5">ALL ZIXOCOMICS CHARACTER DOSSIERS (${appState.characters.length})</h2>
+            <p class="text-xs text-gray-400 mt-1">Showing active heroes, anti-heroes, and cosmic entities across all published ZixoComics continuities.</p>
+          </div>
+        `;
+      } else {
+        const uObj = appState.universes.find(u => u.id === selectedUniverseFilter);
+        banner.innerHTML = `
+          <div class="flex items-start gap-4">
+            <div class="p-2.5 rounded-lg bg-obsidian border border-white/10 shrink-0">
+              ${getUniverseEmblemSVG(uObj.id)}
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-condensed uppercase tracking-widest text-gold font-bold">${uObj.status}</span>
+              </div>
+              <h2 class="font-display text-2xl sm:text-3xl text-offwhite tracking-wide mt-0.5">${uObj.name.toUpperCase()}</h2>
+              <p class="text-xs sm:text-sm text-gray-400 mt-1 max-w-3xl">${uObj.synopsis}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      // Filter Characters
+      const filteredChars = selectedUniverseFilter === 'ALL'
+        ? appState.characters
+        : appState.characters.filter(c => c.universe === selectedUniverseFilter);
+
+      const rosterGrid = document.getElementById('characterRosterGrid');
+      if (filteredChars.length === 0) {
+        rosterGrid.innerHTML = `
+          <div class="col-span-full rounded-lg bg-slateCard border border-dashed border-white/20 p-12 text-center space-y-3">
+            <div class="font-display text-3xl text-gold">COMING SOON — IN DEVELOPMENT</div>
+            <p class="text-sm text-gray-400 max-w-md mx-auto">No public character dossiers have been declassified for this universe yet. Check back soon for upcoming ZixoComics releases.</p>
+          </div>
+        `;
+        return;
+      }
+
+      rosterGrid.innerHTML = filteredChars.map(char => {
+        const portraitHTML = char.customImage
+          ? `<img src="${char.customImage}" alt="${char.codename}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />`
+          : `<div class="w-full h-full group-hover:scale-105 transition-transform duration-500">${getPortraitSVG(char.artKey)}</div>`;
+
+        return `
+          <div onclick="openCharacterDossier('${char.id}')" class="cursor-pointer rounded-lg comic-border bg-slateCard overflow-hidden flex flex-col justify-between group">
+            <div>
+              <div class="relative aspect-[3/4] bg-obsidian overflow-hidden border-b border-white/10">
+                ${portraitHTML}
+                <div class="absolute inset-0 bg-gradient-to-t from-slateCard via-transparent to-black/30"></div>
+                <div class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-obsidian/90 border border-gold/40 text-[10px] font-condensed uppercase tracking-wider text-gold font-bold">
+                  ${char.universe}
+                </div>
+                <div class="absolute bottom-3 left-3.5 right-3.5">
+                  <div class="text-[11px] text-gray-300 font-medium">${char.civilianName}</div>
+                  <h3 class="font-display text-3xl text-offwhite tracking-wide leading-none group-hover:text-gold transition-colors">${char.codename.toUpperCase()}</h3>
+                </div>
+              </div>
+              <div class="p-4 space-y-2.5">
+                <div class="text-[11px] font-condensed uppercase tracking-wider text-gold font-bold">${char.role}</div>
+                <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">${char.bio}</p>
+              </div>
+            </div>
+            <div class="px-4 pb-4 pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
+              <span class="text-gray-400">PWR <strong class="text-offwhite">${char.stats?.power || 85}</strong> • STRAT <strong class="text-gold">${char.stats?.strategy || 80}</strong></span>
+              <span class="font-condensed uppercase tracking-wider text-gold font-bold group-hover:translate-x-0.5 transition-transform">Dossier →</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openCharacterDossier(charId) {
+      const char = appState.characters.find(c => c.id === charId);
+      if (!char) return;
+
+      const portraitHTML = char.customImage
+        ? `<img src="${char.customImage}" alt="${char.codename}" class="w-full h-full object-cover" />`
+        : getPortraitSVG(char.artKey);
+
+      const s = char.stats || { power: 85, combat: 80, strategy: 85 };
+
+      document.getElementById('dossierModalContent').innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-12">
+          <div class="md:col-span-5 bg-obsidian relative min-h-[320px] border-b md:border-b-0 md:border-r border-white/10">
+            ${portraitHTML}
+            <div class="absolute top-3 left-3 corner-box bg-obsidian/95 px-2.5 py-1 text-xs font-display text-gold">
+              ${char.universe.toUpperCase()}
+            </div>
+          </div>
+          <div class="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-5">
+            <div class="space-y-4">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="text-xs font-condensed uppercase tracking-widest text-gold font-bold">${char.role}</div>
+                  <h2 class="font-display text-4xl sm:text-5xl text-offwhite tracking-wide leading-none mt-1">${char.codename.toUpperCase()}</h2>
+                  <p class="text-sm text-gray-300 mt-1">Civilian Identity: <strong class="text-offwhite">${char.civilianName}</strong></p>
+                </div>
+                <button onclick="closeModal('dossierModal')" class="text-gray-400 hover:text-offwhite text-xl leading-none">✕</button>
+              </div>
+
+              <!-- Stat Bars -->
+              <div class="grid grid-cols-3 gap-3 bg-obsidian/80 p-3.5 rounded-lg border border-white/10">
+                <div>
+                  <div class="flex justify-between text-[10px] font-condensed uppercase text-gray-400 mb-1"><span>Power</span><span class="text-offwhite font-bold">${s.power}</span></div>
+                  <div class="w-full h-1.5 bg-white/10 rounded overflow-hidden"><div class="h-full bg-gold" style="width:${s.power}%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[10px] font-condensed uppercase text-gray-400 mb-1"><span>Combat</span><span class="text-offwhite font-bold">${s.combat}</span></div>
+                  <div class="w-full h-1.5 bg-white/10 rounded overflow-hidden"><div class="h-full bg-red-500" style="width:${s.combat}%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[10px] font-condensed uppercase text-gray-400 mb-1"><span>Strategy</span><span class="text-gold font-bold">${s.strategy}</span></div>
+                  <div class="w-full h-1.5 bg-white/10 rounded overflow-hidden"><div class="h-full bg-sky-400" style="width:${s.strategy}%"></div></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-xs font-condensed uppercase tracking-wider text-gray-400 mb-1">Origin &amp; Abilities</h4>
+                <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">${char.bio}</p>
+              </div>
+
+              ${char.tacticalNotes ? `
+                <div class="p-3.5 rounded bg-gold/10 border-l-4 border-gold">
+                  <div class="text-[10px] font-condensed uppercase tracking-widest text-gold font-bold">Tactical Field Analysis</div>
+                  <p class="text-xs text-gray-200 mt-1">${char.tacticalNotes}</p>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-white/10">
+              ${isAdminUnlocked ? `
+                <button onclick="closeModal('dossierModal'); openAdminForCharacter('${char.id}')" class="text-xs font-condensed uppercase tracking-wider text-gold hover:underline font-bold">
+                  ✎ Edit Photo / Bio in Studio
+                </button>
+              ` : `
+                <span class="text-[11px] font-condensed uppercase tracking-widest text-gray-500">ZixoComics Archive</span>
+              `}
+              <button onclick="closeModal('dossierModal')" class="px-5 py-2 rounded bg-white/10 hover:bg-white/20 text-offwhite text-xs font-condensed uppercase tracking-wider font-bold">
+                Close Dossier
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      openModal('dossierModal');
+    }
+
+    // =========================================================================
+    // 8. STEALTH CREATOR TRIGGERS & ADMIN PANEL LOGIC
+    // =========================================================================
+    let logoClickCount = 0;
+    let logoClickTimer = null;
+    let logoHoldTimer = null;
+    let logoHoldTriggered = false;
+
+    function handleLogoClick(event) {
+      if (logoHoldTriggered) {
+        logoHoldTriggered = false;
+        return;
+      }
+      logoClickCount++;
+      clearTimeout(logoClickTimer);
+      if (logoClickCount >= 3) {
+        logoClickCount = 0;
+        openAdminGate();
+        return;
+      }
+      logoClickTimer = setTimeout(() => {
+        if (logoClickCount > 0 && logoClickCount < 3) {
+          navigateTo('home');
+        }
+        logoClickCount = 0;
+      }, 380);
+    }
+
+    function setupStealthAdminTriggers() {
+      const logoBtn = document.getElementById('brandLogoTrigger');
+      if (logoBtn) {
+        const startHold = () => {
+          logoHoldTriggered = false;
+          clearTimeout(logoHoldTimer);
+          logoHoldTimer = setTimeout(() => {
+            logoHoldTriggered = true;
+            logoClickCount = 0;
+            openAdminGate();
+          }, 2000);
+        };
+        const cancelHold = () => {
+          clearTimeout(logoHoldTimer);
+        };
+        logoBtn.addEventListener('mousedown', startHold);
+        logoBtn.addEventListener('touchstart', startHold, { passive: true });
+        logoBtn.addEventListener('mouseup', cancelHold);
+        logoBtn.addEventListener('mouseleave', cancelHold);
+        logoBtn.addEventListener('touchend', cancelHold);
+        logoBtn.addEventListener('touchcancel', cancelHold);
+      }
+
+      // Keyboard Shortcut: Ctrl+Shift+A or Cmd+Shift+A
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+          e.preventDefault();
+          openAdminGate();
+        }
+      });
+
+      // URL Hash Trigger: #admin
+      const checkHashTrigger = () => {
+        if (window.location.hash.toLowerCase() === '#admin') {
+          history.replaceState(null, '', window.location.pathname + window.location.search);
+          openAdminGate();
+        }
+      };
+      window.addEventListener('hashchange', checkHashTrigger);
+      checkHashTrigger();
+    }
+
+    function openAdminGate() {
+      if (isAdminUnlocked) {
+        openAdminStudio();
+      } else {
+        document.getElementById('adminPinInput').value = '';
+        document.getElementById('adminPinError').classList.add('hidden');
+        openModal('adminPinModal');
+        setTimeout(() => document.getElementById('adminPinInput')?.focus(), 100);
+      }
+    }
+
+    function verifyAdminPin(e) {
+      e.preventDefault();
+      const val = document.getElementById('adminPinInput').value.trim();
+      const expectedPin = appState.adminPin || '1234';
+      if (val === expectedPin) {
+        isAdminUnlocked = true;
+        closeModal('adminPinModal');
+        openAdminStudio();
+      } else {
+        document.getElementById('adminPinError').classList.remove('hidden');
+      }
+    }
+
+    function updateAdminPinFromStudio(e) {
+      e.preventDefault();
+      const newPin = document.getElementById('newAdminPinInput').value.trim();
+      if (newPin.length >= 4) {
+        appState.adminPin = newPin;
+        saveAppState();
+        document.getElementById('newAdminPinInput').value = '';
+        showToast('Creator PIN updated & saved permanently!');
+      }
+    }
+
+    function openAdminStudio() {
+      const badge = document.getElementById('adminUnlockedBadge');
+      if (badge) {
+        badge.classList.remove('hidden');
+        badge.classList.add('flex');
+      }
+      renderAdminCharacterList();
+      renderAdminUniverseEditor();
+      openModal('adminStudioModal');
+    }
+
+    function openAdminForCharacter(charId) {
+      isAdminUnlocked = true;
+      openAdminStudio();
+      switchAdminTab('characters');
+      startEditCharacter(charId);
+    }
+
+    function switchAdminTab(tabName) {
+      document.querySelectorAll('.admin-panel-view').forEach(p => p.classList.add('hidden'));
+      document.getElementById(`adminPanel-${tabName}`).classList.remove('hidden');
+
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.className = 'admin-tab-btn px-4 py-2 rounded-t font-condensed uppercase tracking-wider text-xs font-bold text-gray-400 hover:text-offwhite';
+      });
+      document.getElementById(`adminTab-${tabName}`).className = 'admin-tab-btn px-4 py-2 rounded-t font-condensed uppercase tracking-wider text-xs font-bold bg-slateDark text-gold border-t border-x border-gold/40';
+    }
+
+    function handleAdminImageSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      // Compress/resize image slightly via Canvas so IndexedDB & localStorage remain super fast
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxDim = 720;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          pendingUploadDataUrl = canvas.toDataURL('image/jpeg', 0.86);
+
+          document.getElementById('adminPhotoPreviewImg').src = pendingUploadDataUrl;
+          document.getElementById('adminPhotoPreviewBox').classList.remove('hidden');
+          document.getElementById('adminPhotoPreviewBox').classList.add('flex');
+          document.getElementById('clearPhotoBtn').classList.remove('hidden');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearSelectedUpload() {
+      pendingUploadDataUrl = '';
+      document.getElementById('charPhotoUpload').value = '';
+      document.getElementById('adminPhotoPreviewBox').classList.add('hidden');
+      document.getElementById('adminPhotoPreviewBox').classList.remove('flex');
+      document.getElementById('clearPhotoBtn').classList.add('hidden');
+    }
+
+    function resetCharacterForm() {
+      document.getElementById('characterAdminForm').reset();
+      document.getElementById('editCharId').value = '';
+      document.getElementById('charFormTitle').textContent = 'ADD NEW CHARACTER';
+      document.getElementById('cancelEditCharBtn').classList.add('hidden');
+      clearSelectedUpload();
+    }
+
+    function startEditCharacter(charId) {
+      const char = appState.characters.find(c => c.id === charId);
+      if (!char) return;
+
+      document.getElementById('editCharId').value = char.id;
+      document.getElementById('charFormTitle').textContent = `EDIT: ${char.codename.toUpperCase()}`;
+      document.getElementById('cancelEditCharBtn').classList.remove('hidden');
+
+      document.getElementById('charUniverseInput').value = char.universe;
+      document.getElementById('charCodenameInput').value = char.codename;
+      document.getElementById('charCivilianInput').value = char.civilianName;
+      document.getElementById('charRoleInput').value = char.role;
+      document.getElementById('statPowerInput').value = char.stats?.power || 85;
+      document.getElementById('statCombatInput').value = char.stats?.combat || 80;
+      document.getElementById('statStrategyInput').value = char.stats?.strategy || 85;
+      document.getElementById('charBioInput').value = char.bio;
+      document.getElementById('charNotesInput').value = char.tacticalNotes || '';
+
+      if (char.customImage) {
+        pendingUploadDataUrl = char.customImage;
+        document.getElementById('adminPhotoPreviewImg').src = char.customImage;
+        document.getElementById('adminPhotoPreviewBox').classList.remove('hidden');
+        document.getElementById('adminPhotoPreviewBox').classList.add('flex');
+        document.getElementById('clearPhotoBtn').classList.remove('hidden');
+      } else {
+        clearSelectedUpload();
+      }
+    }
+
+    function saveCharacterFromAdmin(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editCharId').value;
+      const universe = document.getElementById('charUniverseInput').value;
+      const codename = document.getElementById('charCodenameInput').value.trim();
+      const civilianName = document.getElementById('charCivilianInput').value.trim();
+      const role = document.getElementById('charRoleInput').value.trim();
+      const power = Number(document.getElementById('statPowerInput').value) || 85;
+      const combat = Number(document.getElementById('statCombatInput').value) || 80;
+      const strategy = Number(document.getElementById('statStrategyInput').value) || 85;
+      const bio = document.getElementById('charBioInput').value.trim();
+      const tacticalNotes = document.getElementById('charNotesInput').value.trim();
+
+      if (editId) {
+        const idx = appState.characters.findIndex(c => c.id === editId);
+        if (idx !== -1) {
+          appState.characters[idx] = {
+            ...appState.characters[idx],
+            universe,
+            codename,
+            civilianName,
+            role,
+            customImage: pendingUploadDataUrl || '',
+            stats: { power, combat, strategy },
+            bio,
+            tacticalNotes
+          };
+        }
+        showToast(`Updated ${codename} & saved permanently!`);
+      } else {
+        const newChar = {
+          id: 'char-' + Date.now(),
+          universe,
+          codename,
+          civilianName,
+          role,
+          artKey: 'default',
+          customImage: pendingUploadDataUrl || '',
+          stats: { power, combat, strategy },
+          bio,
+          tacticalNotes
+        };
+        appState.characters.unshift(newChar);
+        showToast(`Added ${codename} to ${universe} & saved permanently!`);
+      }
+
+      saveAppState();
+      resetCharacterForm();
+      renderAdminCharacterList();
+      renderHomeSection();
+      if (currentSection === 'universe') renderUniverseSection();
+    }
+
+    function quickReplacePhoto(charId, event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxDim = 720;
+          let w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.86);
+
+          const idx = appState.characters.findIndex(c => c.id === charId);
+          if (idx !== -1) {
+            appState.characters[idx].customImage = dataUrl;
+            saveAppState();
+            renderAdminCharacterList();
+            renderHomeSection();
+            if (currentSection === 'universe') renderUniverseSection();
+            showToast(`Portrait updated for ${appState.characters[idx].codename}!`);
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeCharacterPhoto(charId) {
+      const idx = appState.characters.findIndex(c => c.id === charId);
+      if (idx !== -1) {
+        appState.characters[idx].customImage = '';
+        saveAppState();
+        renderAdminCharacterList();
+        renderHomeSection();
+        if (currentSection === 'universe') renderUniverseSection();
+        showToast(`Reverted portrait to default 2D ink art.`);
+      }
+    }
+
+    function deleteCharacterById(charId) {
+      const target = appState.characters.find(c => c.id === charId);
+      if (!target) return;
+      appState.characters = appState.characters.filter(c => c.id !== charId);
+      saveAppState();
+      renderAdminCharacterList();
+      renderHomeSection();
+      if (currentSection === 'universe') renderUniverseSection();
+      showToast(`Deleted ${target.codename} permanently.`);
+    }
+
+    function renderAdminCharacterList() {
+      const filter = document.getElementById('adminFilterUniverse').value;
+      const list = filter === 'ALL'
+        ? appState.characters
+        : appState.characters.filter(c => c.universe === filter);
+
+      document.getElementById('adminCharCount').textContent = list.length;
+      const container = document.getElementById('adminCharacterList');
+
+      container.innerHTML = list.map(char => {
+        const thumb = char.customImage
+          ? `<img src="${char.customImage}" alt="${char.codename}" class="w-14 h-16 object-cover rounded border border-gold/40 shrink-0" />`
+          : `<div class="w-14 h-16 rounded overflow-hidden border border-white/15 shrink-0">${getPortraitSVG(char.artKey)}</div>`;
+
+        return `
+          <div class="bg-obsidian border border-white/10 rounded-lg p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3.5">
+              ${thumb}
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-display text-xl text-offwhite tracking-wide">${char.codename.toUpperCase()}</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-gold font-condensed uppercase">${char.universe}</span>
+                </div>
+                <div class="text-xs text-gray-400">${char.civilianName} • ${char.role}</div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 self-end sm:self-center">
+              <label class="cursor-pointer px-2.5 py-1.5 rounded bg-gold/15 hover:bg-gold hover:text-obsidian text-gold border border-gold/40 text-[11px] font-condensed uppercase font-bold transition-colors">
+                📷 Upload Photo
+                <input type="file" accept="image/*" onchange="quickReplacePhoto('${char.id}', event)" class="hidden" />
+              </label>
+              ${char.customImage ? `
+                <button onclick="removeCharacterPhoto('${char.id}')" class="px-2.5 py-1.5 rounded bg-white/5 hover:bg-white/15 text-gray-300 text-[11px] font-condensed uppercase font-bold">
+                  Reset Art
+                </button>
+              ` : ''}
+              <button onclick="startEditCharacter('${char.id}')" class="px-2.5 py-1.5 rounded bg-white/10 hover:bg-white/20 text-offwhite text-[11px] font-condensed uppercase font-bold">
+                Edit
+              </button>
+              <button onclick="deleteCharacterById('${char.id}')" class="px-2.5 py-1.5 rounded bg-red-950/60 hover:bg-red-800 text-red-300 hover:text-offwhite text-[11px] font-condensed uppercase font-bold">
+                Delete
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAdminUniverseEditor() {
+      const container = document.getElementById('adminUniverseEditorList');
+      container.innerHTML = appState.universes.map((u, idx) => `
+        <div class="bg-obsidian border border-white/10 rounded-lg p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-display text-2xl text-offwhite">${u.name.toUpperCase()}</h4>
+            <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" ${u.comingSoon ? 'checked' : ''} onchange="toggleUniverseComingSoon(${idx}, this.checked)" class="accent-gold" />
+              <span>Coming Soon Badge</span>
+            </label>
+          </div>
+          <div>
+            <label class="block text-[10px] font-condensed uppercase text-gray-400 mb-1">Tagline</label>
+            <input type="text" value="${u.tagline}" onchange="updateUniverseField(${idx}, 'tagline', this.value)" class="w-full bg-slateCard border border-white/15 rounded px-3 py-1.5 text-xs text-offwhite" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-condensed uppercase text-gray-400 mb-1">Synopsis</label>
+            <textarea rows="2" onchange="updateUniverseField(${idx}, 'synopsis', this.value)" class="w-full bg-slateCard border border-white/15 rounded px-3 py-1.5 text-xs text-offwhite">${u.synopsis}</textarea>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleUniverseComingSoon(idx, isSoon) {
+      appState.universes[idx].comingSoon = isSoon;
+      appState.universes[idx].status = isSoon ? 'COMING SOON — IN DEVELOPMENT' : 'ACTIVE SERIES';
+      saveAppState();
+      renderHomeSection();
+      showToast(`Updated status for ${appState.universes[idx].name}`);
+    }
+
+    function updateUniverseField(idx, field, val) {
+      appState.universes[idx][field] = val;
+      saveAppState();
+      renderHomeSection();
+      showToast(`Saved ${appState.universes[idx].name} details`);
+    }
+
+    function exportDatabaseJson() {
+      const blob = new Blob([JSON.stringify(appState, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'zixocomics-database-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Exported ZixoComics JSON backup!');
+    }
+
+    function importDatabaseJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.universes && parsed.characters) {
+            appState = parsed;
+            saveAppState();
+            renderHomeSection();
+            renderAdminCharacterList();
+            renderAdminUniverseEditor();
+            showToast('Imported ZixoComics backup successfully!');
+          }
+        } catch (err) {
+          showToast('Invalid JSON backup file.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function confirmFactoryReset() {
+      const preservedPin = appState.adminPin || '1234';
+      appState = {
+        adminPin: preservedPin,
+        universes: JSON.parse(JSON.stringify(DEFAULT_UNIVERSES)),
+        characters: JSON.parse(JSON.stringify(DEFAULT_CHARACTERS)),
+        issues: JSON.parse(JSON.stringify(PANTHEON_ISSUES))
+      };
+      saveAppState();
+      renderHomeSection();
+      renderAdminCharacterList();
+      renderAdminUniverseEditor();
+      if (currentSection === 'universe') renderUniverseSection();
+      showToast('Restored default ZixoComics database.');
+    }
+
+    // =========================================================================
+    // 9. INITIALIZE APPLICATION ON LOAD
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', async () => {
+      await initIndexedDB();
+      renderHomeSection();
+      setupStealthAdminTriggers();
+    });
+  </script>
+</body>
+</html>
